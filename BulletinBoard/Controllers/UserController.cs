@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
+// add comment
 namespace BulletinBoard.Controllers
 {
     public class UserController : Controller
