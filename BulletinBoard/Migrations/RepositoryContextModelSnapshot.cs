@@ -27,8 +27,7 @@ namespace BulletinBoard.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(1000);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ForumImageUri")
                         .HasColumnType("TEXT");
@@ -37,9 +36,7 @@ namespace BulletinBoard.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("OwnerId")
                         .HasColumnName("OwnerID")
@@ -90,6 +87,20 @@ namespace BulletinBoard.Migrations
                     b.HasIndex("ToUserId");
 
                     b.ToTable("Message");
+                });
+
+            modelBuilder.Entity("Entities.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("Entities.Models.Topic", b =>
@@ -245,7 +256,7 @@ namespace BulletinBoard.Migrations
                         {
                             Id = "59d0b519-75a3-40c9-a6a8-2b42ad9e5095",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0b5d7c0a-33dc-4546-98b6-1795e261a0dc",
+                            ConcurrencyStamp = "3d2a21a6-1926-4495-b829-eaad0c27b74f",
                             Email = "admin@email.com",
                             EmailConfirmed = false,
                             IsAdministrator = true,
@@ -255,13 +266,31 @@ namespace BulletinBoard.Migrations
                             Name = "Administrator",
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG5cJPT8NmWwU65wQc3aaK2nEvgXp0kgJeP0AQ4U/HgMXg5I826qaDqCwrpkhvfe3A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOZtLEyl88QvQtSzziN2iMLwp3agI9+NSmqbMMHdPG0zoMhfJHnrHPfbGqt1bcq2Vg==",
                             PhoneNumberConfirmed = false,
                             RegisterDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "270447d0-43a1-42d8-9414-e45d5c9c10b5",
+                            SecurityStamp = "704672e0-91ac-4269-b094-274db0616e58",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
+                });
+
+            modelBuilder.Entity("Entities.Models.UserNotification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("NotificationId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserNotifications");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -293,7 +322,7 @@ namespace BulletinBoard.Migrations
                         new
                         {
                             Id = "f6d54222-3065-48b8-86e3-8c0c7ad6e7cc",
-                            ConcurrencyStamp = "549e80b0-7f6a-46a7-b958-d83ff13a3c22",
+                            ConcurrencyStamp = "6787921a-dde9-4d51-ad91-30ac224ebb90",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -459,6 +488,21 @@ namespace BulletinBoard.Migrations
                         .HasForeignKey("RootTopicId")
                         .HasConstraintName("FK_Topic_RootTopic")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Entities.Models.UserNotification", b =>
+                {
+                    b.HasOne("Entities.Models.Notification", "Notification")
+                        .WithMany("UserNotification")
+                        .HasForeignKey("NotificationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
