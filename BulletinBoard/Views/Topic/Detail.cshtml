@@ -1,0 +1,20 @@
+@model TopicViewModel
+@{
+  ViewBag.Title = Model.Title;
+}
+
+<div class="row">
+  <main class="col-12">
+    <partial name="_TopicReading" model="Model" />
+
+    <div class="discussion-reply-spacer">
+      <p>@Model.InverseReplyToTopic.Count @(Model.InverseReplyToTopic.Count > 1 ? "replies" : "reply") in this
+        discussions</p>
+    </div>
+
+    @foreach (var t in Model.InverseReplyToTopic)
+    {
+      <partial name="_TopicReading" model="t" />
+    }
+  </main>
+</div>

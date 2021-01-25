@@ -1,0 +1,159 @@
+@inject UserManager<User> userManager
+@{
+  var user = await userManager.GetUserAsync(User);
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@ViewBag.Title</title>
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="~/lib/trumbowyg/dist/ui/trumbowyg.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+    crossorigin="anonymous" />
+  <link href="~/css/site.css" rel="stylesheet">
+  <link href="~/css/signin.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" type="text/css">
+</head>
+
+<body>
+  <wrapper class="d-flex flex-column min-vh-100">
+    <header class="header-area">
+      <div class="container mk-nav-container">
+        <nav class="mk-navbar d-flex justify-content-between align-items-center" id="mkNav">
+          <!-- Logo -->
+          <a class="custom-logo-link d-flex align-center" rel="home" asp-action="Index" asp-controller="Home">
+            Bulletin Board
+          </a>
+
+          <!-- Navbar Toggler -->
+          <div class="mk-navbar-toggler">
+            <span class="navbarToggler"> <span></span><span></span><span></span> </span>
+          </div>
+
+          <!-- Menu -->
+          <div class="mk-menu d-flex justify-content-end">
+            <!-- Menu Close Button -->
+            <div class="mkcloseIcon">
+              <div class="cross-container">
+                <span class="top"></span>
+                <span class="bottom"></span>
+              </div>
+            </div>
+
+            @if (!User.Identity.IsAuthenticated)
+            {
+              <a class="btn btn-md btn-white" asp-controller="Authentication" asp-action="LogIn">Sign In</a>
+            }
+            else
+            {
+              <!-- Form -->
+              <form class="form-inline my-2 my-lg-0 mr-sm-5" id="searchform" asp-controller="Forum" asp-action="Index"
+                method="get">
+                <div class="search-wrapper">
+                  <input class="form-control" type="search" name="searchTerm" placeholder="Search for forums"
+                    aria-label="Search">
+                  <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+              </form>
+              <!-- Nav Start -->
+              <div class="mknav">
+                <ul id="nav">
+                  <li class="current-item">
+                    <a asp-action="Index" asp-controller="Forum">
+                      <i class="fa fa-comments"></i>
+                      <span>Forums</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a class="nav-link" asp-action="Index" asp-controller="Message">
+                      <i class="fas fa-envelope"></i>
+                      <span>Messages</span>
+                    </a>
+                  </li>
+                  @if (User.IsInRole(Roles.Administrator) || (User.IsInRole(Roles.Moderator)))
+                  {
+                    <li>
+                      <a href="#">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                      </a>
+                      <ul class="dropdown">
+                        @if (User.IsInRole(Roles.Administrator))
+                        {
+                          <li>
+                            <a asp-controller="User" asp-action="Index"><i class="fas fa-users"></i> Users</a>
+                          </li>
+                          <li>
+                            <a asp-controller="Role" asp-action="Index"><i class="fas fa-user-tag"></i> Roles</a>
+                          </li>
+                        }
+                        <li>
+                          <a asp-controller="Forum" asp-action="Create"><i class="fas fa-pen-square"></i> Create Forum</a>
+                        </li>
+                      </ul>
+                    </li>
+                  }
+                  <li>
+                    <a class="avatar navuser" href="#">
+                      @if (user.ImageUrl != null)
+                      {
+                        <img src="@user.ImageUrl" alt="profile picture">
+                      }
+                      else
+                      {
+                        <img src="~/images/empty-profile-image.png" alt="empty user image">
+                      }
+                      <span>My Account</span>
+                    </a>
+                    <ul class="dropdown">
+                      <li>
+                        <a asp-controller="User" asp-action="Detail" asp-route-username="@User.Identity.Name">
+                          <i class="fas fa-user-circle"></i> My Profile
+                        </a>
+                      </li>
+                      <li>
+                        <a asp-controller="Authentication" asp-action="LogOut">
+                          <i class="fas fa-sign-out-alt"></i> Signout
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <!-- Nav End -->
+            }
+
+
+          </div>
+          <!-- .mk-menu -->
+        </nav>
+      </div>
+      <!-- .mk-nav-container -->
+    </header>
+
+    <article id="content" class="flex-fill pt-5 pb-5">
+      <div class="container">
+        @RenderBody()
+      </div>
+    </article>
+
+    <footer class="layout-footer">
+      <div class="container text-center">
+        <span class="text-muted">&copy; 2020 - BulletinBoard</span>
+      </div>
+    </footer>
+  </wrapper>
+
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  @RenderSection("EditorScripts", required: false)
+  @RenderSection("ValidationScripts", required: false)
+  <script src="~/js/site.js"></script>
+</body>
+
+</html>

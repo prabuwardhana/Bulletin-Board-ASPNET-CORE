@@ -1,0 +1,55 @@
+@model ForumViewModel
+<div class="container col-6">
+    <div class="card border-light mb-3">
+        <div class="card-header text-white bg-primary">
+            <strong>Forum Detail Information</strong>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td><strong>ID</strong></td>
+                    <td>@Model.id</td>
+                </tr>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <td><strong>Owner</strong></td>
+                    <td><a asp-action="Detail" asp-controller="User" asp-route-username="@Model.OwnerUserName">@Model.OwnerUserName</a></td>
+                </tr>
+                <tr>
+                    <td><strong>Description</strong></td>
+                    <td>@Model.Description</td>
+                </tr>
+                <tr>
+                    <td><strong>Locked</strong></td>
+                    <td><input type="checkbox" asp-for="IsLocked" disabled="disabled" /></td>
+                </tr>
+                <tr>
+                    <td><strong>Create Date</strong></td>
+                    <td>@Model.CreatedDateTime.ToShortDateString()</td>
+                </tr>
+                <tr>
+                    <td><strong>Operation</strong></td>
+                    <td>
+                        @if ((string)ViewData["Mode"] == "ShowingDetail") {
+                            @if (User.IsInRole(Roles.Administrator) || User.IsInRole(Roles.Moderator)) {
+                                <a class="btn-sm btn-primary" asp-action="Edit" asp-route-id="@Model.id">Edit</a>
+                                <a class="btn-sm btn-warning" asp-action="Delete" asp-route-id="@Model.id">Delete</a>
+                            }
+                            <a class="btn-sm btn-success" asp-controller="Topic" asp-action="Create" asp-route-forumid="@Model.id">Post Topic</a>
+                        }
+                        @if ((string)ViewData["Mode"] == "ConfirmingDelete") {
+                            <input type="submit" class="btn-sm btn-warning" value="Confirm" />
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+@model ValueTuple<ForumViewModel, IEnumerable<TopicListViewModel>>
+
+@{
+  var topicModel = Model.Item1;
+  var mostActiveTopics = Model.Item2;
+  ViewBag.Title = topicModel.Name;
+}
+
+<div class="row">
+  <main class="col-lg-8 col-12">
+    @foreach (var t in topicModel.Topic)
+    {
+      <div class="post card-shadow">
+        <div class="post-content">
+          <div class="post-image">
+            <div class="avatar">
+              @if (t.Owner.ImageUrl != null)
+              {
+                <img src="@t.Owner.ImageUrl" alt="user image">
+              }
+              else
+              {
+                <img src="~/images/empty-profile-image.png" alt="empty user image">
+              }
+            </div>
+            <div class="icons d-flex flex-column">
+              <span class="text-center">
+                <a asp-action="Detail" asp-controller="User" asp-route-username="@t.Owner.UserName">@t.Owner.UserName</a>
+              </span>
+            </div>
+          </div>
+          <div class="post-text">
+            <header>
+              <h2>
+                @if (t.IsLocked)
+                {
+                  @t.Title <span>(Locked)</span>
+                }
+                else
+                {
+                  <a asp-action="Detail" asp-route-id="@t.id">@t.Title</a>
+                }
+              </h2>
+            </header>
+            <article>
+              @Html.Raw(@t.Content)
+            </article>
+          </div>
+        </div>
+        <div class="post-info">
+          <div class="count-bubble">
+            <div class="bubblebg">
+              <span>@(t.InverseRootTopic.Count() - 1)</span>
+              <div class="mark"></div>
+            </div>
+          </div>
+          <div class="time">
+            <div class="time-container">
+              <i class="far fa-clock"></i>
+              <span>@t.PostDateTime.ToShortDateString()</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+
+  <aside class="col-lg-4 col-12">
+    <div class="sidebarbox card-shadow">
+      <h2>Top Discussions</h2>
+      <ul>
+        @foreach (var t in mostActiveTopics)
+        {
+          <li>
+            <a asp-controller="Topic" asp-action="Detail" asp-route-id="@t.id">
+              @t.Title
+            </a>
+            <div>
+              <span class="badge badge-bb">@t.RepliesCount</span>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+    <div>
+      @if (!topicModel.IsLocked)
+      {
+        <a class="btn btn-danger btn-block" asp-action="Create" asp-route-forumid="@topicModel.id">
+          <i class="fa fa-plus" aria-hidden="true"></i>
+          Create new topic
+        </a>
+      }
+    </div>
+  </aside>
+</div>

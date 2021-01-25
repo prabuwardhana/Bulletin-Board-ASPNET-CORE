@@ -1,0 +1,68 @@
+@model ForumForUpdateViewModel
+@{
+    ViewBag.Title = "Update Forum";
+}
+
+<form asp-action="Edit" enctype="multipart/form-data" method="post">
+    <input type="hidden" asp-for="id" />
+    <input type="hidden" asp-for="OwnerId" />
+    <input type="hidden" asp-for="CreatedDateTime" />
+    <input type="hidden" asp-for="ForumImageUri">
+    <div class="container col-6 offset-3">
+        <div class="card border-light mb-3">
+            <div class="card-header text-white bg-primary">
+                <strong>Update Forum</strong>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td><strong>ID</strong></td>
+                        <td>@Model.id</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><input class="form-control" asp-for="Name" /></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Forum Image</strong></td>
+                        <td>
+                            <table class="table">
+                                <tr>
+                                    <td><img src="@Model.ForumImageUri" alt=""></td>
+                                    <td><input class="form-control" name="file" type="file" /></td>
+                                </tr>
+                            </table>
+                        </td>
+                                            
+                    </tr>
+                    <tr>
+                        <td><strong>Owner</strong></td>
+                        <td><a asp-action="Detail" asp-controller="User" asp-route-username="@Model.OwnerUserName">@Model.OwnerUserName</a></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Description</strong></td>
+                        <td><textarea class="form-control editor" asp-for="Description"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Locked</strong></td>
+                        <td><input type="checkbox" asp-for="IsLocked" /></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Date Created</strong></td>
+                        <td>@Model.CreatedDateTime.ToShortDateString()</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Operation</strong></td>
+                        <td>
+                            <input type="submit" class="btn-sm btn-success" value="Update" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>

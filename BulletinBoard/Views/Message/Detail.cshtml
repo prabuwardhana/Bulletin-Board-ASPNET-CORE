@@ -1,0 +1,47 @@
+@model MessageViewModel
+
+<div class="message-card">
+  <div class="row">
+    <div class="col-12">
+      <header class="message-header">
+        <div class="d-flex align-items-center">
+          <div class="avatar sender mr-2">
+            @if (Model.FromUserImageUrl != null)
+            {
+              <img src="@Model.FromUserImageUrl" alt="profile image">
+            }
+            else
+            {
+              <img src="~/images/empty-profile-image.png" alt="empty profile image">
+            }
+          </div>
+          <h4>
+            <a asp-controller="User" asp-action="Detail"
+              asp-route-username="@Model.FromUserName">@Model.FromUserName</a>
+          </h4>
+        </div>
+        <span class="time">
+          <i class="far fa-clock"></i>
+          @Model.SendDateTime.ToShortDateString()
+        </span>
+      </header>
+      <article class="message-content mt-4">
+        <div class="title">
+          <h2>@Model.Title</h2>
+          <div class="action">
+            @if (Model.ToUserName == User.Identity.Name)
+            {
+              <a asp-action="Reply" asp-route-id="@Model.Id" class="btn btn-success btn-sm"><i class="fas fa-reply"></i></a>
+            }
+            <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@Model.Id"><i
+                class="fas fa-trash-alt"></i></a>
+          </div>
+        </div>
+        <div class="content mt-4">
+          @Html.Raw(@Model.Content)
+        </div>
+      </article>
+      <footer class="message-footer"></footer>
+    </div>
+  </div>
+</div>

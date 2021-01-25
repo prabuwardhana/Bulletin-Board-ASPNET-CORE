@@ -1,0 +1,114 @@
+@model UserViewModel
+
+@{
+  ViewBag.Title = "User Detail";
+}
+
+<div class="row">
+  <div class="col-lg-4 col-12">
+    <div class="card">
+      <div class="user-profile">
+        <h2>Hi! I am <span>@Model.Username</span>.</h2>
+        <div class="d-flex flex-column align-items-center">
+          <div class="avatar profpic">
+            @if (Model.ImageUrl != null)
+            {
+              <img src="@Model.ImageUrl" alt="@Model.Username">
+            }
+            else
+            {
+              <img src="~/images/empty-profile-image.png" alt="empty user image">
+            }
+          </div>
+          <div class="role">
+            <span class="badge badge-danger">
+              @if (Model.Roles.Contains(Roles.Administrator))
+              {
+                @string.Join(", ", Model.Roles)
+              }
+              else if (Model.Roles.Contains(Roles.Moderator))
+              {
+                @Roles.Moderator
+              }
+              else
+              {
+                @("User")
+              }
+            </span>
+          </div>
+          <div>
+            <p>Member since: @Model.RegisterDateTime.ToShortDateString()</p>
+            <p>Last Login: @Model.LastLoginDateTime.ToShortDateString()</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8 col-12">
+    <div class="card mt-3 mt-sm-5 mt-lg-0">
+      <div class="user-info">
+        <header class="mb-4">
+          <h2>User Info</h2>
+          <div class="action-btn">
+            @if (User.IsInRole(Roles.Administrator) || User.Identity.Name == Model.Username)
+            {
+              <a class="btn btn-primary edit-profile" asp-action="Edit" asp-route-username="@Model.Username">
+                <i class="fas fa-edit"></i>
+                Edit profile
+              </a>
+            }
+
+            @if (User.Identity.Name != Model.Username)
+            {
+              <a class="btn btn-success edit-profile" asp-controller="Message" asp-action="Create"
+                asp-route-tousername="@Model.Username">
+                <i class="fa fa-envelope"></i>
+                Send Message
+              </a>
+            }
+          </div>
+        </header>
+        <article>
+          <h3>Basic Information</h3>
+          <div class="row">
+            <div class="user-info-detail col-12">
+              <div class="user-info-detail-label">
+                <h4>User ID</h4>
+              </div>
+              <div class="user-info-detail-value">
+                <p>@Model.Id</p>
+              </div>
+            </div>
+            <div class="user-info-detail col-12">
+              <div class="user-info-detail-label">
+                <h4>Name</h4>
+              </div>
+              <div class="user-info-detail-value">
+                <p>@Model.Name</p>
+              </div>
+            </div>
+            <div class="user-info-detail col-12">
+              <div class="user-info-detail-label">
+                <h4>Username</h4>
+              </div>
+              <div class="user-info-detail-value">
+                <p>@Model.Username</p>
+              </div>
+            </div>
+            <div class="user-info-detail col-12">
+              <div class="user-info-detail-label">
+                <h4>Email</h4>
+              </div>
+              <div class="user-info-detail-value">
+                <p>@Model.Email</p>
+              </div>
+            </div>
+          </div>
+          <h3>User Bio</h3>
+          @Html.Raw(@Model.Description)          
+        </article>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+@model TopicForCreationViewModel
+@{
+    ViewBag.Title = "New Topic";
+    ViewData["Mode"] = "Create New Topic";
+    ViewData["SubmitButtonText"] = "Post";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card p-4">
+            <form asp-action="Create" method="post">
+                <input type="hidden" asp-for="ForumId" />
+                <partial name="_TopicEditing" model="Model" />
+            </form>
+        </div>
+    </div>
+</div>
+
+@section EditorScripts {
+    @{await Html.RenderPartialAsync("_EditorScriptsPartial");}
+}

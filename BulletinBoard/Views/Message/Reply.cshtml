@@ -1,0 +1,29 @@
+@model MessageReplyViewModel
+@{
+    ViewBag.Title = "Reply Message";
+}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card p-4">
+      <form asp-action="Reply" method="post">
+        <input type="hidden" asp-for="ReplyToUserId" />
+        <div class="form-data">
+          <h2 class="form-title">
+            Replying message to:
+            <a asp-controller="User" asp-action="Detail" asp-route-username="@Model.ReplyToUserName">@Model.ReplyToUserName</a>
+          </h2>
+          <input type="text" class="form-control" asp-for="Title" />
+          <textarea class="form-control editor" asp-for="Content"></textarea>
+        </div>
+        <div class="form-action">
+          <button type="submit" class="btn btn-md btn-success">Send Message</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+@section EditorScripts {
+    @{await Html.RenderPartialAsync("_EditorScriptsPartial");}
+}

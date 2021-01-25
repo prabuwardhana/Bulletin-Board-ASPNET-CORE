@@ -1,0 +1,177 @@
+@model UserForUpdateViewModel
+
+@{
+  ViewBag.Title = "Update User";
+}
+
+<div class="row">
+  <div class="col-lg-4 col-12">
+    <div class="card">
+      <div class="user-profile">
+        <h2>Hi! I am <span>@Model.Username</span>.</h2>
+        <div class="d-flex flex-column align-items-center">
+          <div class="avatar profpic">
+            @if (Model.ImageUrl != null)
+            {
+              <img src="@Model.ImageUrl" alt="@Model.Username">
+            }
+            else
+            {
+              <img src="~/images/empty-profile-image.png" alt="empty user image">
+            }
+          </div>
+          <div class="role">
+            <span class="badge badge-danger">
+              @if (Model.Roles.Contains(Roles.Administrator))
+              {
+                @string.Join(", ", Model.Roles)
+              }
+              else if (Model.Roles.Contains(Roles.Moderator))
+              {
+                @Roles.Moderator
+              }
+              else
+              {
+                @("User")
+              }
+            </span>
+          </div>
+          <div>
+            <p>Member since: @Model.RegisterDateTime.ToShortDateString()</p>
+            <p>Last Login: @Model.LastLogInDateTime.ToShortDateString()</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8 col-12">
+    <div class="card mt-3 mt-sm-5 mt-lg-0">
+      <div class="user-info">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
+          <header class="mb-4">
+            <h2>Update User Info</h2>
+            <div class="action-btn">
+              <button type="submit" class="btn btn-primary edit-profile">
+                <i class="fas fa-save"></i>
+                Save Profile
+              </button>
+              <a class="btn btn-danger edit-profile" asp-controller="User" asp-action="Detail"
+                asp-route-username="@Model.Username">
+                <i class="fas fa-times-circle"></i>
+                Cancel
+              </a>
+            </div>
+          </header>
+          <article>
+            <h3>Basic Information</h3>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Name" />
+            <input type="hidden" asp-for="Username" />
+            <input type="hidden" asp-for="RegisterDateTime" />
+            <input type="hidden" asp-for="LastLogInDateTime" />
+            <div class="row">
+              <div class="user-info-detail col-12">
+                <div class="user-info-detail-label">
+                  <h4>User ID</h4>
+                </div>
+                <div class="user-info-detail-value">
+                  <p>@Model.Id</p>
+                </div>
+              </div>
+              <div class="user-info-detail col-12">
+                <div class="user-info-detail-label">
+                  <h4>Name</h4>
+                </div>
+                <div class="user-info-detail-value">
+                  <p>@Model.Name</p>
+                </div>
+              </div>
+              <div class="user-info-detail col-12">
+                <div class="user-info-detail-label">
+                  <h4>Username</h4>
+                </div>
+                <div class="user-info-detail-value">
+                  <p>@Model.Username</p>
+                </div>
+              </div>
+              <div class="user-info-detail col-12">
+                @if (!User.IsInRole(Roles.Administrator))
+                {
+                  <div class="user-info-detail-label">
+                    <label asp-for="CurrentPassword">Current Password</label>
+                  </div>
+                  <div class="user-info-detail-value">
+                    <input id="Password" class="form-control" type="password" asp-for="CurrentPassword">
+                  </div>
+                }
+              </div>
+              <div class="user-info-detail col-12">
+                <div class="user-info-detail-label">
+                  <label asp-for="Password">New Password</label>
+                </div>
+                <div class="user-info-detail-value">
+                  <input id="NewPassword" class="form-control" type="password" asp-for="Password" />
+                </div>
+              </div>
+              <div class="user-info-detail col-12">
+                <div class="user-info-detail-label">
+                  <label asp-for="RepeatPassword">Repeat New Password</label>
+                </div>
+                <div class="user-info-detail-value">
+                  <input id="RepeatPassword" class="form-control" type="password" asp-for="RepeatPassword" />
+                </div>
+              </div>
+              <div class="user-info-detail col-12">
+                <div class="user-info-detail-label">
+                  <label asp-for="Email">Email</label>
+                </div>
+                <div class="user-info-detail-value">
+                  <input id="Email" class="form-control" type="email" asp-for="Email" />
+                </div>
+              </div>
+              @if (User.IsInRole(Roles.Administrator))
+              {
+                <div class="user-info-detail col-12">
+                  <div class="user-info-detail-label">
+                    <label asp-for="IsAdministrator">Administrator</label>
+                  </div>
+                  <div class="user-info-detail-value">
+                    <input id="IsAdministrator" type="checkbox" asp-for="IsAdministrator" />
+                  </div>
+                </div>
+                <div class="user-info-detail col-12">
+                  <div class="user-info-detail-label">
+                    <label asp-for="IsLocked">Locked</label>
+                  </div>
+                  <div class="user-info-detail-value">
+                    <input id="IsLocked" type="checkbox" asp-for="IsLocked" />
+                  </div>
+                </div>
+              }
+              <div class=" col-12">
+                <input type="file" name="file" id="file" class="inputfile" />
+                <label for="file">
+                  <span></span>
+                  <strong>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                      <path
+                        d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" />
+                    </svg>
+                    Change Profile Image
+                  </strong>
+                </label>
+              </div>
+            </div>
+            <h3>User Bio</h3>
+            <textarea class="form-control editor" asp-for="Description"></textarea>
+          </article>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section EditorScripts {
+    @{await Html.RenderPartialAsync("_EditorScriptsPartial");}
+}

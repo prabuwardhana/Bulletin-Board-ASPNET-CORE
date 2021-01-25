@@ -1,0 +1,92 @@
+@model ValueTuple<IEnumerable<MessageViewModel>, string>
+
+@{
+  ViewBag.Title = "Private Messages";
+  var userName = Model.Item2;
+  var unread = Model.Item1.Where(m => m.ToUserName == userName && !m.IsRead);
+  var read = Model.Item1.Where(m => m.ToUserName == userName && m.IsRead);
+  var unreadSent = Model.Item1.Where(m => m.FromUserName == userName && !m.IsRead);
+  var readSent = Model.Item1.Where(m => m.FromUserName == userName && m.IsRead);
+}
+
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title">
+      <i class="fas fa-inbox"></i>
+      Private Messages
+    </h4>
+    <div class="mt-4">
+      <div class="accordion" id="accordion" role="tablist">
+        <div class="card">
+          <div class="card-header" role="tab" id="heading-2">
+            <h6 class="mb-0">
+              <a data-toggle="collapse" href="#collapse-2" aria-expanded="true" aria-controls="collapse-2"
+                data-abc="true">
+                <i class="far fa-envelope"></i>
+                Unread Inbox
+                <span class="badge badge-bb">@unread.Count()</span>
+              </a>
+            </h6>
+          </div>
+          <div id="collapse-2" class="collapse show" role="tabpanel" aria-labelledby="heading-2"
+            data-parent="#accordion">
+            <div class="card-body">
+              <partial name="_MessageList" model="unread" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" role="tab" id="heading-3">
+            <h6 class="mb-0">
+              <a class="collapsed" data-toggle="collapse" href="#collapse-3" aria-expanded="false"
+                aria-controls="collapse-3" data-abc="true">
+                <i class="far fa-envelope-open"></i>
+                Read Inbox
+                <span class="badge badge-bb">@read.Count()</span>
+              </a>
+            </h6>
+          </div>
+          <div id="collapse-3" class="collapse" role="tabpanel" aria-labelledby="heading-3" data-parent="#accordion">
+            <div class="card-body">
+              <partial name="_MessageList" model="read" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" role="tab" id="heading-4">
+            <h6 class="mb-0">
+              <a class="collapsed" data-toggle="collapse" href="#collapse-4" aria-expanded="false"
+                aria-controls="collapse-4" data-abc="true">
+                <i class="fas fa-envelope"></i>
+                Unread Sent Messages
+                <span class="badge badge-bb">@unreadSent.Count()</span>
+              </a>
+            </h6>
+          </div>
+          <div id="collapse-4" class="collapse" role="tabpanel" aria-labelledby="heading-4" data-parent="#accordion">
+            <div class="card-body">
+              <partial name="_MessageList" model="unreadSent" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" role="tab" id="heading-5">
+            <h6 class="mb-0">
+              <a class="collapsed" data-toggle="collapse" href="#collapse-5" aria-expanded="false"
+                aria-controls="collapse-5" data-abc="true">
+                <i class="fas fa-envelope-open"></i>
+                Read Sent Messages
+                <span class="badge badge-bb">@readSent.Count()</span>
+              </a>
+            </h6>
+          </div>
+          <div id="collapse-5" class="collapse" role="tabpanel" aria-labelledby="heading-5" data-parent="#accordion">
+            <div class="card-body">
+              <partial name="_MessageList" model="readSent" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

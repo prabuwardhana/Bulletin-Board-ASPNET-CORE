@@ -1,0 +1,106 @@
+@model UserForRegistrationViewModel
+
+@{
+  ViewBag.Title = "BulletinBoard Home";
+}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="home-panel">
+        <div class="left-panel">
+          <h2>Welcome To Bulletin Board</h2>
+          <p>
+            <strong>This project is a server-side application using ASP.NET Core MVC.</strong>
+          </p>
+          <p>
+            The project focuses on how to write a loosely coupled architecture and how to apply
+            object oriented design principles in ASP.NET Core web application.
+          </p>
+          <p>
+            Technologies used in this project are:
+          </p>
+          <ul>
+            <li>NPM for front-end dependency management</li>
+            <li>Gulp for front-end development task automation</li>
+            <li>Responsive design (CSS Flexbox and Grid)</li>
+            <li>ASP.NET Core Identity for user management and authentication</li>
+            <li>Tag Helpers and HTML Helpers</li>
+            <li>Entity Framework Core</li>
+            <li>SQLite</li>
+          </ul>
+        </div>
+        <div class="right-panel">
+          <h2>Register Or <a asp-controller="Authentication" asp-action="LogIn">Sign In With Demo Account</a></h2>          
+          <form asp-action="Register" asp-controller="Authentication" method="post">
+            <div class="registration-field">
+              <div class="registration-field-label">
+                <label asp-for="Name">Name</label>
+              </div>
+              <div class="registration-field-value">
+                <input id="Name" type="text" class="form-control" asp-for="Name" />
+              </div>
+              <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="registration-field">
+              <div class="registration-field-label">
+                <label asp-for="Username">Username</label>
+              </div>
+              <div class="registration-field-value">
+                <input id="Username" type="text" class="form-control" asp-for="Username" />
+              </div>
+              <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="registration-field">
+              <div class="registration-field-label">
+                <label asp-for="Email">Email</label>
+              </div>
+              <div class="registration-field-value">
+                <input id="Email" type="email" class="form-control" asp-for="Email" />
+              </div>
+              <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="registration-field">
+              <div class="registration-field-label">
+                <label asp-for="Password">Password</label>
+              </div>
+              <div class="registration-field-value">
+                <input id="Password" type="password" class="form-control" asp-for="Password" type="password" />
+              </div>
+              <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="registration-field">
+              <div class="registration-field-label">
+                <label asp-for="RepeatPassword">Repeat Password</label>
+              </div>
+              <div class="registration-field-value">
+                <input id="RepeatPassword" type="password" class="form-control" asp-for="RepeatPassword" type="password" />
+              </div>
+              <span asp-validation-for="RepeatPassword" class="text-danger"></span>
+            </div>
+            <div class="registration-field">
+              <div class="registration-field-label">
+                <label asp-for="Description">About you</label>
+              </div>
+              <div class="registration-field-value">
+                <textarea id="Description" type="text" class="form-control regs" asp-for="Description"></textarea>
+              </div>
+              <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary form-control mt-3">
+              Register
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section ValidationScripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@section EditorScripts {
+    @{await Html.RenderPartialAsync("_EditorScriptsPartial");}
+}

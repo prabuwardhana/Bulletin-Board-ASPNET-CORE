@@ -1,0 +1,68 @@
+@model Entities.RequestFeatures.PagedList<UserViewModel>
+
+@{
+  ViewBag.Title = "Users";
+}
+
+<div class="row">
+  <div class="col-12">
+    <div class="card p-4 p-lg-5">
+      <form id="searchform" class="form-grid" asp-controller="User" asp-action="Index" method="get">
+        <input class="form-control" type="search" name="SearchTerm" placeholder="Search for users">
+        <button type="submit" class="btn"><i class="fa fa-search"></i></button>
+      </form>
+
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>
+                <a asp-controller="User" asp-action="Index" asp-route-orderby="username">
+                  Username <i class="fas fa-sort"></i>
+                </a>
+              </th>
+              <th>
+                <a asp-controller="User" asp-action="Index" asp-route-orderby="registerdatetime desc">
+                  Register <i class="fas fa-sort"></i>
+                </a>
+              </th>
+              <th>
+                <a asp-controller="User" asp-action="Index" asp-route-orderby="lastlogindatetime desc">
+                  Last Login <i class="fas fa-sort"></i>
+                </a>
+              </th>
+              <th>Administrator</th>
+              <th>Locked</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var u in Model)
+            {
+              <tr>
+                <td><a asp-controller="User" asp-action="Detail" asp-route-username="@u.Username">@u.Username</a></td>
+                <td>@u.RegisterDateTime.ToShortDateString()</td>
+                <td>@u.LastLoginDateTime.ToShortDateString()</td>
+                <td><input type="checkbox" disabled="disabled" asp-for="@u.IsAdministrator" /></td>
+                <td><input type="checkbox" disabled="disabled" asp-for="@u.IsLocked" /></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <nav>
+          <a page-metadata="@Model.MetaData" page-action="Index" is-previous="true">
+            <i class="fas fa-angle-double-left"></i>
+          </a>
+          <ul page-metadata="@Model.MetaData" page-action="Index" page-classes-enabled="true"
+            page-class-normal="hidden-xs" page-class-selected="current">
+          </ul>
+          <a page-metadata="@Model.MetaData" page-action="Index" is-next="true">
+            <i class="fas fa-angle-double-right"></i>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+@model TopicForUpdateViewModel
+@{
+    ViewBag.Title = "Update Topic";
+    ViewData["Mode"] = "Update Topic";
+    ViewData["SubmitButtonText"] = "Update";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card p-4">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="ForumId" />
+                <input type="hidden" asp-for="Title" />
+                <input type="hidden" asp-for="RootTopicId" />
+                <partial name="_TopicEditing" model="Model" />
+            </form>
+        </div>
+    </div>
+</div>

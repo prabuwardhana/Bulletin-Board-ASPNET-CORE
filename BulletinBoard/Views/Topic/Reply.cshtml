@@ -1,0 +1,24 @@
+@model TopicForReplyViewModel
+@{
+    ViewBag.Title = "Reply Topic";
+    ViewData["Mode"] = $"Post a reply to {Model.ReplyToTopic.Title}";
+    ViewData["SubmitButtonText"] = "Post Reply";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card p-4">
+            <form asp-action="Reply" method="post">
+                <input type="hidden" asp-for="ForumId" />
+                <input type="hidden" asp-for="Title" />
+                <input type="hidden" asp-for="RootTopicId" />
+                <input type="hidden" asp-for="ReplyToTopicId" />
+                <partial name="_TopicEditing" model="Model" />
+            </form>
+        </div>
+    </div>
+</div>
+
+@section EditorScripts {
+    @{await Html.RenderPartialAsync("_EditorScriptsPartial");}
+}

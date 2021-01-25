@@ -1,0 +1,19 @@
+@model TopicForManipulationViewModel
+
+
+<div class="form-data">
+    <h2 class="form-title">@ViewData["Mode"]</h2>
+    @if (Model.id == 0)
+    {
+        <input type="text" class="form-control" placeholder="Type the title here" asp-for="Title" />
+    }
+    <textarea class="form-control editor" placeholder="Type your message here" asp-for="Content"></textarea>
+</div>
+
+<div class="form-action">
+    <div class="lockchbox">
+        <label asp-for="IsLocked">Lock</label>
+        <input type="checkbox" asp-for="IsLocked" />
+    </div>
+    <button type="submit" class="btn btn-md btn-success">Post Reply</button>
+</div>
