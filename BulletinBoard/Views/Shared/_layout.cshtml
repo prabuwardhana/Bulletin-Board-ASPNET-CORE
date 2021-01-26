@@ -15,7 +15,6 @@
     integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
     crossorigin="anonymous" />
   <link href="~/css/site.css" rel="stylesheet">
-  <link href="~/css/signin.css" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" type="text/css">
 </head>
 
@@ -71,7 +70,8 @@
                   <li>
                     <a class="nav-link" asp-action="Index" asp-controller="Message">
                       <i class="fas fa-envelope"></i>
-                      <span>Messages</span>
+                      <span>Messages</span>                      
+                      <span class="badge notification-count" id="notificationCount" data-toggle="popover" title="Notifications"></span>
                     </a>
                   </li>
                   @if (User.IsInRole(Roles.Administrator) || (User.IsInRole(Roles.Moderator)))
@@ -151,6 +151,7 @@
   <script src="~/lib/jquery/dist/jquery.min.js"></script>
   <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
   @RenderSection("EditorScripts", required: false)
   @RenderSection("ValidationScripts", required: false)
   <script src="~/js/site.js"></script>

@@ -7,6 +7,8 @@ namespace Contracts
         IForumRepository Forum { get; }
         ITopicRepository Topic { get; }
         IMessageRepository Message { get; }
+        INotificationRepository Notification { get; }
+        IUserNotificationRepository UserNotification { get; }
         Task SaveAsync();
     }
 }

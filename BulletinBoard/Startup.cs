@@ -1,5 +1,7 @@
 using AutoMapper;
 using BulletinBoard.Extensions;
+using BulletinBoard.Infrastructures;
+using Infrastructure.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +30,10 @@ namespace BulletinBoard
                          .RequireAuthenticatedUser()
                          .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
-            }).AddRazorRuntimeCompilation();
+            })
+            .AddRazorRuntimeCompilation()
+            .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddSignalR();
             services.ConfigureSqliteContext(Configuration);
             services.ConfigureRepositoryManager();
             services.ConfigureRepositoryService();
@@ -64,6 +69,8 @@ namespace BulletinBoard
 
                 endpoints.MapControllerRoute("pagination", "Forum/Page_{pageNumber}",
                     new { Controller = "Forum", action = "Index" });
+                
+                endpoints.MapHub<SignalServer>("/signalServer");
             });
         }
     }

@@ -12,12 +12,17 @@ namespace Services.RepositoryServices
     public class MessageService : IMessageService
     {
         private readonly IRepositoryManager _repositoryManager;
+        private INotificationService _notificationService;
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
 
-        public MessageService(IRepositoryManager repositoryManager, UserManager<User> userManager, IMapper mapper)
+        public MessageService(IRepositoryManager repositoryManager,
+                              INotificationService notificationService,
+                              UserManager<User> userManager,
+                              IMapper mapper)
         {
             _repositoryManager = repositoryManager;
+            _notificationService = notificationService;
             _userManager = userManager;
             _mapper = mapper;
         }
@@ -49,7 +54,14 @@ namespace Services.RepositoryServices
             var message = _mapper.Map<MessageViewModel, Message>(model, opts => opts.Items["FromUserId"] = fromUser.Id);
 
             _repositoryManager.Message.CreateMessage(message);
+
             await _repositoryManager.SaveAsync();
+
+            var notification = new Notification{
+                Text = $"You have 1 unread message from {fromUser}"
+            };
+
+            await _notificationService.NotifyMsgReceiverAsync(notification, message.ToUserId);            
         }
 
         public async Task<MessageViewModel> ReadMessageAsync(int msgId, string userName)
@@ -110,7 +122,9 @@ namespace Services.RepositoryServices
         {
             var message = await _repositoryManager.Message.GetMessageForUserAsync(msgId, trackChanges: false);
 
-            if (!message.ToUser.UserName.Equals(userName) && !message.FromUser.UserName.Equals(userName))
+            var user = await _userManager.FindByNameAsync(userName);
+
+            if (message.ToUserId != user.Id && message.FromUserId != user.Id)
             {
                 throw new Exception("Message access denied.");
             }

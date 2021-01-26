@@ -12,6 +12,8 @@ namespace Repository
         private IForumRepository _forumRepository;
         private ITopicRepository _topicRepository;
         private IMessageRepository _messageRepository;
+        private INotificationRepository _notifcationRepository;
+        private IUserNotificationRepository _userNotificationRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
         {
@@ -48,6 +50,28 @@ namespace Repository
                     _messageRepository = new MessageRepository(_repositoryContext);
                 
                 return _messageRepository;
+            }
+        }
+
+        public INotificationRepository Notification
+        {
+            get
+            {
+                if (_notifcationRepository == null)
+                    _notifcationRepository = new NotificationRepository(_repositoryContext);
+                
+                return _notifcationRepository;
+            }
+        }
+
+        public IUserNotificationRepository UserNotification
+        {
+            get
+            {
+                if (_userNotificationRepository == null)
+                    _userNotificationRepository = new UserNotificationRepository(_repositoryContext);
+                
+                return _userNotificationRepository;
             }
         }
 

@@ -9,12 +9,13 @@ namespace Entities
     {
         public RepositoryContext(DbContextOptions options)
             : base(options) { }
-        
+
         public DbSet<Forum> Forum { get; set; }
         public DbSet<Message> Message { get; set; }
         public DbSet<Topic> Topic { get; set; }
         public DbSet<User> User { get; set; }
-        
+        public DbSet<UserNotification> UserNotifications { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -22,7 +23,7 @@ namespace Entities
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new UserRoleConfiguration());
-            
+
             modelBuilder.Entity<Forum>(entity =>
             {
                 // Configure relationship between Forum entity and User Entity
@@ -32,7 +33,7 @@ namespace Entities
                     // inverse navigation property.
                     // This references the collection navigation property on User entity (User.Forums).
                     // Specifies that one User can have multiple Forums
-                    .WithMany(user=> user.Forums)
+                    .WithMany(user => user.Forums)
                     // foreign key for this particular relationship
                     .HasForeignKey(forum => forum.OwnerId)
                     // optional relationships
@@ -44,13 +45,13 @@ namespace Entities
             modelBuilder.Entity<Message>(entity =>
             {
                 entity.HasOne(msg => msg.FromUser)
-                    .WithMany(user=> user.MessagesFromUser)
+                    .WithMany(user => user.MessagesFromUser)
                     .HasForeignKey(msg => msg.FromUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Message_FromUser");
 
                 entity.HasOne(msg => msg.ToUser)
-                    .WithMany(user=> user.MessagesToUser)
+                    .WithMany(user => user.MessagesToUser)
                     .HasForeignKey(msg => msg.ToUserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Message_ToUser");
@@ -59,33 +60,38 @@ namespace Entities
             modelBuilder.Entity<Topic>(entity =>
             {
                 entity.HasOne(topic => topic.Forum)
-                    .WithMany(forum=> forum.Topic)
+                    .WithMany(forum => forum.Topic)
                     .HasForeignKey(topic => topic.ForumId)
                     .HasConstraintName("FK_Topic_Forum");
 
                 entity.HasOne(topic => topic.ModifiedByUser)
-                    .WithMany(user=> user.TopicsModifiedByUser)
+                    .WithMany(user => user.TopicsModifiedByUser)
                     .HasForeignKey(topic => topic.ModifiedByUserId)
                     .HasConstraintName("FK_Topic_ModifiedByUser");
-                
+
                 entity.HasOne(topic => topic.Owner)
-                    .WithMany(user=> user.TopicsOwner)
+                    .WithMany(user => user.TopicsOwner)
                     .HasForeignKey(topic => topic.OwnerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Topic_Owner");
-                
+
                 entity.HasOne(topic => topic.ReplyToTopic)
-                    .WithMany(topic=> topic.InverseReplyToTopic)
+                    .WithMany(topic => topic.InverseReplyToTopic)
                     .HasForeignKey(topic => topic.ReplyToTopicId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Topic_ReplyToTopic");
 
                 entity.HasOne(topic => topic.RootTopic)
-                    .WithMany(topic=> topic.InverseRootTopic)
+                    .WithMany(topic => topic.InverseRootTopic)
                     .HasForeignKey(topic => topic.RootTopicId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Topic_RootTopic");
             });
-        }        
+
+            modelBuilder.Entity<UserNotification>(entity => 
+            {
+                entity.HasKey(k => new { k.NotificationId, k.UserId });
+            });
+        }
     }
 }

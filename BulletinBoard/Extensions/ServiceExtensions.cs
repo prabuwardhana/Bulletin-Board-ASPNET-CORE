@@ -32,6 +32,7 @@ namespace BulletinBoard.Extensions
             services.AddScoped<IForumService, ForumService>();
             services.AddScoped<ITopicService, TopicService>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<INotificationService, NotificationService>();
         }
 
         public static void ConfigureIdentityUser(this IServiceCollection services)

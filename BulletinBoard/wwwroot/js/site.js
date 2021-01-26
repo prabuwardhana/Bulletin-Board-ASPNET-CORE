@@ -131,17 +131,94 @@ $("#mkNav").mkNav();
 // Offset position for body element depending on header height
 $("#content").css("margin-top", $(".header-area").height());
 
-$(".editor").trumbowyg({
-    btns: [
-        ["strong", "em"],
-        ["justifyLeft", "justifyCenter", "justifyRight", "justifyFull"],
-        ["insertImage", "link"],
-    ],
-});
+$(function () {
+    $('[data-toggle="popover"]').popover({
+        placement: "bottom",
+        content: function () {
+            return $("#notification-content").html();
+        },
+        html: true,
+    });
 
-$(".regs").trumbowyg({
-    btns: [
-        ["strong", "em"],
-        ["justifyLeft", "justifyFull"],
-    ],
+    $("body").append(`<div id="notification-content" class="hide"></div>`);
+
+    function getNotification() {
+        var res = "<ul class='list-group'>";
+        $.ajax({
+            url: "/Notification/getNotification",
+            method: "GET",
+            success: function (result) {
+                console.log(result);
+                if (result.count != 0) {
+                    $("#notificationCount").html(result.count);
+                    $("#notificationCount").show("slow");
+                } else {
+                    $("#notificationCount").html();
+                    $("#notificationCount").hide("slow");
+                    $("#notificationCount").popover("hide");
+                }
+
+                var notifications = result.userNotification;
+                notifications.forEach((element) => {
+                    res = res + "<li class='list-group-item notification-text' data-id='" + element.notification.id + "'>" + element.notification.text + "</li>";
+                });
+
+                res = res + "</ul>";
+
+                $("#notification-content").html(res);
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    }
+
+    $("li.notification-text").on("click", function (e) {
+        var target = e.target;
+        var id = $(target).data("id");
+        console.log(id)
+
+        readNotification(id, target);
+    });
+
+    function readNotification(id, target) {
+        $.ajax({
+            url: "/Notification/ReadNotification",
+            method: "GET",
+            data: { notificationId: id },
+            success: function (result) {
+                getNotification();
+                $(target).fadeOut("slow");
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    }
+
+    getNotification();
+
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/signalServer")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+    
+    connection.on("displayNotification", () => {
+        getNotification();
+    });
+
+    async function start() {
+        try {
+            await connection.start();
+            console.log("SignalR Connected.");
+        } catch (err) {
+            console.log(err);
+            setTimeout(start, 5000);
+        }
+    }
+
+    connection.onclose(start);
+
+    // Start the connection.
+    start();
 });

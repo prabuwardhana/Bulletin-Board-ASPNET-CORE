@@ -1604,4 +1604,17 @@ p {
     color: var(--main-color);
 }
 
+/* :: NOTIFICATION */
+
+.notification-count{
+    top: 14px;
+    position: relative;
+    cursor: pointer;
+}
+
+.popover{
+    width: 500px;
+    cursor: pointer;
+}
+
 
