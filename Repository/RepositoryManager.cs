@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Contracts;
 using Entities;
-using Repository;
 
 namespace Repository
 {

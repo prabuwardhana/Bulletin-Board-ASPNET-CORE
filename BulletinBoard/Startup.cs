@@ -1,6 +1,5 @@
 using AutoMapper;
 using BulletinBoard.Extensions;
-using BulletinBoard.Infrastructures;
 using Infrastructure.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;

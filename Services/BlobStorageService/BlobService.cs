@@ -1,17 +1,12 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Contracts;
-using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.Extensions.Options;
 using Services.BlobStorageService.Configurations;
 using Services.BlobStorageService.Utilities;
-using BlobInfo = Entities.Models.BlobInfo;
 
 namespace Services.BlobStorageService
 {
