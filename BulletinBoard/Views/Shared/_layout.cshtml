@@ -70,10 +70,9 @@
                   <li>
                     <a class="nav-link" asp-action="Index" asp-controller="Message">
                       <i class="fas fa-envelope"></i>
-                      <span>Messages</span>                      
-                      <span class="badge notification-count" id="notificationCount" data-toggle="popover" title="Notifications"></span>
+                      <span>Messages</span>
                     </a>
-                  </li>
+                  </li>                  
                   @if (User.IsInRole(Roles.Administrator) || (User.IsInRole(Roles.Moderator)))
                   {
                     <li>
@@ -121,6 +120,13 @@
                         </a>
                       </li>
                     </ul>
+                  </li>
+                  <li>
+                    <div class="notification">
+                      <i class="fas fa-bell"></i>
+                      <span class="badge notification-count" id="notificationCount" data-toggle="popover"
+                        title="Notifications"></span>
+                    </div>
                   </li>
                 </ul>
               </div>

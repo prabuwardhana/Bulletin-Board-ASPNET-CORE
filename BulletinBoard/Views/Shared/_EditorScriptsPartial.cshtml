@@ -1,2 +1,17 @@
 <script src="~/lib/trumbowyg/dist/trumbowyg.min.js"></script>
-<script src="~/js/editor.js"></script>
+<script>
+    $(".editor").trumbowyg({
+        btns: [
+            ["strong", "em"],
+            ["justifyLeft", "justifyCenter", "justifyRight", "justifyFull"],
+            ["insertImage", "link"],
+        ],
+    });
+
+    $(".regs").trumbowyg({
+        btns: [
+            ["strong", "em"],
+            ["justifyLeft", "justifyFull"],
+        ],
+    });
+</script>

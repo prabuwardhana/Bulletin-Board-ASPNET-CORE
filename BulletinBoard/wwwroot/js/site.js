@@ -124,14 +124,7 @@
         .on("blur", function () {
             $input.removeClass("has-focus");
         });
-})(jQuery, window, document);
 
-$("#mkNav").mkNav();
-
-// Offset position for body element depending on header height
-$("#content").css("margin-top", $(".header-area").height());
-
-$(function () {
     $('[data-toggle="popover"]').popover({
         placement: "bottom",
         content: function () {
@@ -140,7 +133,7 @@ $(function () {
         html: true,
     });
 
-    $("body").append(`<div id="notification-content" class="hide"></div>`);
+    $("body").append(`<div id="notification-content" class="d-none"></div>`);
 
     function getNotification() {
         var res = "<ul class='list-group'>";
@@ -148,19 +141,18 @@ $(function () {
             url: "/Notification/getNotification",
             method: "GET",
             success: function (result) {
-                console.log(result);
                 if (result.count != 0) {
-                    $("#notificationCount").html(result.count);
-                    $("#notificationCount").show("slow");
+                    $("li #notificationCount").html(result.count);
+                    $("li #notificationCount").show("slow");
                 } else {
-                    $("#notificationCount").html();
-                    $("#notificationCount").hide("slow");
-                    $("#notificationCount").popover("hide");
+                    $("li #notificationCount").html();
+                    $("li #notificationCount").hide("slow");
+                    $("li #notificationCount").popover("hide");
                 }
 
                 var notifications = result.userNotification;
                 notifications.forEach((element) => {
-                    res = res + "<li class='list-group-item notification-text' data-id='" + element.notification.id + "'>" + element.notification.text + "</li>";
+                    res = res + "<li class='list-group-item notification-text' id='" + element.notification.id + "'>" + element.notification.text + "</li>";
                 });
 
                 res = res + "</ul>";
@@ -173,10 +165,12 @@ $(function () {
         });
     }
 
-    $("li.notification-text").on("click", function (e) {
+    getNotification();
+
+    $(document).on("click", "ul li.notification-text", function (e) {
         var target = e.target;
-        var id = $(target).data("id");
-        console.log(id)
+        var id = $(target).attr("id");
+        console.log(id);
 
         readNotification(id, target);
     });
@@ -186,7 +180,7 @@ $(function () {
             url: "/Notification/ReadNotification",
             method: "GET",
             data: { notificationId: id },
-            success: function (result) {
+            success: function () {
                 getNotification();
                 $(target).fadeOut("slow");
             },
@@ -196,13 +190,8 @@ $(function () {
         });
     }
 
-    getNotification();
+    const connection = new signalR.HubConnectionBuilder().withUrl("/signalServer").configureLogging(signalR.LogLevel.Information).build();
 
-    const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/signalServer")
-        .configureLogging(signalR.LogLevel.Information)
-        .build();
-    
     connection.on("displayNotification", () => {
         getNotification();
     });
@@ -210,7 +199,6 @@ $(function () {
     async function start() {
         try {
             await connection.start();
-            console.log("SignalR Connected.");
         } catch (err) {
             console.log(err);
             setTimeout(start, 5000);
@@ -221,4 +209,9 @@ $(function () {
 
     // Start the connection.
     start();
-});
+})(jQuery, window, document);
+
+$("#mkNav").mkNav();
+
+// Offset position for body element depending on header height
+$("#content").css("margin-top", $(".header-area").height());
