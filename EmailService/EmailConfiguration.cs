@@ -2,6 +2,7 @@ namespace EmailService
 {
     public class EmailConfiguration
     {
+        public const string EmailSenderConfiguration = "EmailConfiguration";
         public string From { get; set; }
         public string SmtpServer { get; set; }
         public int Port { get; set; }

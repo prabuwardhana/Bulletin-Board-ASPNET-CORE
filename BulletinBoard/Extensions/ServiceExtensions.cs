@@ -90,7 +90,7 @@ namespace BulletinBoard.Extensions
 
         public static void ConfigureEmailService(this IServiceCollection services, IConfiguration configuration)
         {
-            var emailConfig = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+            var emailConfig = configuration.GetSection(EmailConfiguration.EmailSenderConfiguration).Get<EmailConfiguration>();
                 
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender>();
