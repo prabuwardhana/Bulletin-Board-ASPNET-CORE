@@ -19,17 +19,14 @@ namespace Services.BlobStorageService
     {
         private readonly BlobServiceClient _blobServiceClient;
         private readonly BlobContainerClient _containerClient;
-        private readonly AzureBlobStorageOption _options;
         private readonly long _fileSizeLimit;
         private readonly string[] _permittedExtensions = { ".png", ".jpg" };
         
-        public BlobService(IOptions<AzureBlobStorageOption> options)
+        public BlobService(AzureBlobStorageOption options)
         {
-            _options = options.Value;
-
-            _fileSizeLimit = _options.FileSizeLimit;  
-            _blobServiceClient = new BlobServiceClient(_options.ConnectionString);   
-            _containerClient = _blobServiceClient.GetBlobContainerClient(_options.Container);
+            _fileSizeLimit = options.FileSizeLimit;  
+            _blobServiceClient = new BlobServiceClient(options.ConnectionString);   
+            _containerClient = _blobServiceClient.GetBlobContainerClient(options.Container);
         }
 
         public async Task<string> UploadContentBlobAsync(IFormFile file, ModelStateDictionary modelState)

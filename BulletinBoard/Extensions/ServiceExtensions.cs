@@ -82,19 +82,15 @@ namespace BulletinBoard.Extensions
 
         public static void ConfigureAzureBlobService(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<AzureBlobStorageOption>(options => 
-            {
-                configuration.GetSection(AzureBlobStorageOption.AzureBlobOption).Bind(options);
-            });
+            var blobConfig = configuration.GetSection(AzureBlobStorageOption.AzureBlobOption).Get<AzureBlobStorageOption>();
 
+            services.AddSingleton(blobConfig);
             services.AddSingleton<IBlobService, BlobService>();
         }
 
         public static void ConfigureEmailService(this IServiceCollection services, IConfiguration configuration)
         {
-            var emailConfig = configuration
-                .GetSection("EmailConfiguration")
-                .Get<EmailConfiguration>();
+            var emailConfig = configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
                 
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender>();
