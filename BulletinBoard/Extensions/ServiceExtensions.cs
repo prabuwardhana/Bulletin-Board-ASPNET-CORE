@@ -1,6 +1,5 @@
 using System;
 using Contracts;
-using EmailService;
 using Entities;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Repository;
 using Services.BlobStorageService;
 using Services.BlobStorageService.Configurations;
+using Services.EmailService;
+using Services.EmailService.Configurations;
+using Services.EmailService.Interface;
 using Services.IdentityUserService;
 using Services.RepositoryServices;
 
@@ -93,7 +95,7 @@ namespace BulletinBoard.Extensions
             var emailConfig = configuration.GetSection(EmailConfiguration.EmailSenderConfiguration).Get<EmailConfiguration>();
                 
             services.AddSingleton(emailConfig);
-            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEmailSenderService, EmailSenderService>();
         }
     }
 }

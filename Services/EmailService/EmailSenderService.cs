@@ -1,13 +1,16 @@
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
+using Services.EmailService.Configurations;
+using Services.EmailService.Interface;
 
-namespace EmailService
+namespace Services.EmailService
 {
-    public class EmailSender : IEmailSender
+    public class EmailSenderService : IEmailSenderService
     {
         private readonly EmailConfiguration _emailConfig;
-        public EmailSender(EmailConfiguration emailConfig)
+
+        public EmailSenderService(EmailConfiguration emailConfig)
         {
             _emailConfig = emailConfig;
         }

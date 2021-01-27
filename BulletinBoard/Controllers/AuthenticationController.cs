@@ -1,20 +1,20 @@
 using System;
 using System.Threading.Tasks;
 using Contracts;
-using EmailService;
 using Entities.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Services.EmailService.Interface;
 
 namespace BulletinBoard.Controllers
 {
     public class AuthenticationController : Controller
     {
         private readonly IUserAuthService _userAuthService;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSenderService _emailSender;
 
-        public AuthenticationController(IUserAuthService userAuthService, IEmailSender emailSender)
+        public AuthenticationController(IUserAuthService userAuthService, IEmailSenderService emailSender)
         {
             _userAuthService = userAuthService;
             _emailSender = emailSender;
@@ -94,14 +94,10 @@ namespace BulletinBoard.Controllers
 
             var token = await _userAuthService.GetPasswordResetTokenAsync(model);
 
-            if (String.IsNullOrEmpty(token))
-            {
-                return RedirectToAction(nameof(ForgotPasswordConfirmation));
-            }
-            else
+            if (!String.IsNullOrEmpty(token))
             {
                 var callback = Url.Action(nameof(ResetPassword), "Authentication", new { token, email = model.Email }, Request.Scheme);
-                var message = new EmailService.Message(new string[] { "dian.nandiwardhana@gmail.com" }, "Reset password token", callback, null);
+                var message = new Services.EmailService.Message(new string[] { model.Email }, "Reset password token", callback, null);
                 await _emailSender.SendEmailAsync(message);
             }
 

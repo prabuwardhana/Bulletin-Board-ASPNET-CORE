@@ -13,8 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entiti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{D303BB22-0447-458C-8038-D5DB2275EBA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailService", "EmailService\EmailService.csproj", "{787C3424-CA9E-47FD-B829-232EC62FFDD9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,17 +86,5 @@ Global
 		{D303BB22-0447-458C-8038-D5DB2275EBA0}.Release|x64.Build.0 = Release|Any CPU
 		{D303BB22-0447-458C-8038-D5DB2275EBA0}.Release|x86.ActiveCfg = Release|Any CPU
 		{D303BB22-0447-458C-8038-D5DB2275EBA0}.Release|x86.Build.0 = Release|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Debug|x64.Build.0 = Debug|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Debug|x86.Build.0 = Debug|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Release|x64.ActiveCfg = Release|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Release|x64.Build.0 = Release|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Release|x86.ActiveCfg = Release|Any CPU
-		{787C3424-CA9E-47FD-B829-232EC62FFDD9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

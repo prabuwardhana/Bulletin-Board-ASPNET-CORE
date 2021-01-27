@@ -1,4 +1,4 @@
-namespace EmailService
+namespace Services.EmailService.Configurations
 {
     public class EmailConfiguration
     {

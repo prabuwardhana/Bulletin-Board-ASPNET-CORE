@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 
-namespace EmailService
+namespace Services.EmailService.Interface
 {
-    public interface IEmailSender
+    public interface IEmailSenderService
     {
          void SendEmail(Message message);
          Task SendEmailAsync(Message message);
