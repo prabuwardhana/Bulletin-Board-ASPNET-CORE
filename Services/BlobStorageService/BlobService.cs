@@ -9,7 +9,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
-using Services.BlobStorageService.Options;
+using Services.BlobStorageService.Configurations;
 using Services.BlobStorageService.Utilities;
 using BlobInfo = Entities.Models.BlobInfo;
 
@@ -22,11 +22,11 @@ namespace Services.BlobStorageService
         private readonly long _fileSizeLimit;
         private readonly string[] _permittedExtensions = { ".png", ".jpg" };
         
-        public BlobService(AzureBlobStorageOption options)
+        public BlobService(AzureBlobStorageConfig config)
         {
-            _fileSizeLimit = options.FileSizeLimit;  
-            _blobServiceClient = new BlobServiceClient(options.ConnectionString);   
-            _containerClient = _blobServiceClient.GetBlobContainerClient(options.Container);
+            _fileSizeLimit = config.FileSizeLimit;  
+            _blobServiceClient = new BlobServiceClient(config.ConnectionString);   
+            _containerClient = _blobServiceClient.GetBlobContainerClient(config.Container);
         }
 
         public async Task<string> UploadContentBlobAsync(IFormFile file, ModelStateDictionary modelState)

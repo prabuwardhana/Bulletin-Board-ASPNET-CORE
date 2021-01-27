@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Repository;
 using Services.BlobStorageService;
-using Services.BlobStorageService.Options;
+using Services.BlobStorageService.Configurations;
 using Services.IdentityUserService;
 using Services.RepositoryServices;
 
@@ -82,7 +82,7 @@ namespace BulletinBoard.Extensions
 
         public static void ConfigureAzureBlobService(this IServiceCollection services, IConfiguration configuration)
         {
-            var blobConfig = configuration.GetSection(AzureBlobStorageOption.AzureBlobOption).Get<AzureBlobStorageOption>();
+            var blobConfig = configuration.GetSection(AzureBlobStorageConfig.AzureBlobOption).Get<AzureBlobStorageConfig>();
 
             services.AddSingleton(blobConfig);
             services.AddSingleton<IBlobService, BlobService>();
