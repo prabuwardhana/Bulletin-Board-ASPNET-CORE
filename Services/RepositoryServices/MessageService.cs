@@ -116,6 +116,12 @@ namespace Services.RepositoryServices
 
             _repositoryManager.Message.CreateMessage(message);
             await _repositoryManager.SaveAsync();
+
+            var notification = new Notification{
+                Text = $"You have 1 unread message from {fromUser}"
+            };
+
+            await _notificationService.NotifyMsgReceiverAsync(notification, message.ToUserId);
         }
 
         public async Task DeleteMessage(int msgId, string userName)
