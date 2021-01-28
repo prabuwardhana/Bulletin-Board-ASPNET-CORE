@@ -25,7 +25,7 @@ namespace BulletinBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(ForumParameters forumParameters)
         {
-            var model = await _forumService.GetForumsList(forumParameters);
+            var model = await _forumService.GetPagedAndTopForumsAsync(forumParameters);
 
             return View(model);
         }
@@ -48,7 +48,7 @@ namespace BulletinBoard.Controllers
 
             model.ForumImageUri = await _blobService.UploadContentBlobAsync(file, ModelState);
 
-            await _forumService.CreateForum(model, User.Identity.Name);
+            await _forumService.CreateForumAsync(model, User.Identity.Name);
 
             return RedirectToAction("Index");
         }
@@ -56,7 +56,7 @@ namespace BulletinBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
-            var model = await _forumService.GetForumDetail(id);
+            var model = await _forumService.GetForumDetailAsync(id);
             
             return View(model);
         }
@@ -65,7 +65,7 @@ namespace BulletinBoard.Controllers
         [Authorize(Roles = Roles.Administrator + "," + Roles.Moderator)]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await _forumService.GetForumDetailForEditing(id);
+            var model = await _forumService.GetForumDetailForEditingAsync(id);
 
             return View(model);
         }
@@ -94,7 +94,7 @@ namespace BulletinBoard.Controllers
                 model.ForumImageUri = await _blobService.UploadContentBlobAsync(file, ModelState);
             }
 
-            await _forumService.EditForum(model);
+            await _forumService.EditForumAsync(model);
 
             return RedirectToAction("Index");
         }
@@ -103,7 +103,7 @@ namespace BulletinBoard.Controllers
         [Authorize(Roles = Roles.Administrator + "," + Roles.Moderator)]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = await _forumService.GetForumDetail(id);
+            var model = await _forumService.GetForumDetailAsync(id);
 
             return View(model);
         }
@@ -120,7 +120,7 @@ namespace BulletinBoard.Controllers
                 await _blobService.DeleteBlobAsync(fileName);
             }
 
-            await _forumService.DeleteForum(model);
+            await _forumService.DeleteForumAsync(model);
 
             return RedirectToAction("Index");
         }

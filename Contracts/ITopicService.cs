@@ -6,13 +6,13 @@ namespace Contracts
 {
     public interface ITopicService
     {
-        Task<(ForumViewModel, IEnumerable<TopicListViewModel>)> GetTopicsListFromForum(int forumId);
-        Task CreateTopic(TopicForCreationViewModel model, string userName);
-        Task<T> GetTopicDetail<T>(int id);
-        Task<TopicViewModel> GetTopicWithAllReplies(int id);
-        Task<TopicForReplyViewModel> GetTopicForReplying(int toId);
-        Task ReplyToTopic(TopicForReplyViewModel model, string userName);
-        Task EditTopic(TopicForUpdateViewModel model, string userName);
-        Task DeleteTopic(TopicViewModel model);
+        Task<(ForumViewModel, IEnumerable<TopicListViewModel>)> GetPagedAndTopTopicsFromForumAsync(int forumId);
+        Task CreateTopicAsync(TopicForCreationViewModel model, string userName);
+        Task<T> GetTopicDetailAsync<T>(int id);
+        Task<TopicViewModel> GetTopicWithAllRepliesAsync(int id);
+        Task<TopicForReplyViewModel> GetTopicForReplyingAsync(int toId);
+        Task ReplyToTopicAsync(TopicForReplyViewModel model, string userName);
+        Task EditTopicAsync(TopicForUpdateViewModel model, string userName);
+        Task DeleteTopicAsync(TopicViewModel model);
     }
 }

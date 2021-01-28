@@ -22,7 +22,7 @@ namespace Services.RepositoryServices
             _mapper = mapper;
         }
 
-        public async Task<(PagedList<ForumListViewModel>, IEnumerable<ForumListViewModel>)> GetForumsList(ForumParameters forumParameters)
+        public async Task<(PagedList<ForumListViewModel>, IEnumerable<ForumListViewModel>)> GetPagedAndTopForumsAsync(ForumParameters forumParameters)
         {
             var pagedForums = await _repositoryManager.Forum.GetForumsAsync(forumParameters, trackChanges: false);
             var pagedForumsModel = _mapper.Map<PagedList<ForumListViewModel>>(pagedForums);
@@ -35,7 +35,7 @@ namespace Services.RepositoryServices
             return (pagedForumsModel, topForumsModel);
         }
 
-        public async Task CreateForum(ForumForCreationViewModel model, string userName)
+        public async Task CreateForumAsync(ForumForCreationViewModel model, string userName)
         {
             var owner = await _userManager.FindByNameAsync(userName);
 
@@ -45,7 +45,7 @@ namespace Services.RepositoryServices
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task<ForumViewModel> GetForumDetail(int id)
+        public async Task<ForumViewModel> GetForumDetailAsync(int id)
         {
             var forum = await _repositoryManager.Forum.GetForumDetailByIdAsync(id, trackChanges: false);
             var model = _mapper.Map<ForumViewModel>(forum);
@@ -53,7 +53,7 @@ namespace Services.RepositoryServices
             return model;
         }
 
-        public async Task<ForumForUpdateViewModel> GetForumDetailForEditing(int id)
+        public async Task<ForumForUpdateViewModel> GetForumDetailForEditingAsync(int id)
         {
             var forum = await _repositoryManager.Forum.GetForumDetailByIdAsync(id, trackChanges: false);
             var model = _mapper.Map<ForumForUpdateViewModel>(forum);
@@ -61,7 +61,7 @@ namespace Services.RepositoryServices
             return model;
         }
 
-        public async Task EditForum(ForumForUpdateViewModel model)
+        public async Task EditForumAsync(ForumForUpdateViewModel model)
         {
             var forum = await _repositoryManager.Forum.GetForumByIdAsync(model.id, trackChanges: true);
 
@@ -70,7 +70,7 @@ namespace Services.RepositoryServices
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task DeleteForum(ForumViewModel model)
+        public async Task DeleteForumAsync(ForumViewModel model)
         {
             var forum = await _repositoryManager.Forum.GetForumByIdAsync(model.id, trackChanges: false);
 

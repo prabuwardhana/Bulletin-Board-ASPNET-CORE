@@ -17,7 +17,7 @@ namespace BulletinBoard.Controllers
 
         public async Task<IActionResult> Index(int forumId)
         {
-            var model = await _topicService.GetTopicsListFromForum(forumId);
+            var model = await _topicService.GetPagedAndTopTopicsFromForumAsync(forumId);
 
             return View(model);
         }
@@ -38,7 +38,7 @@ namespace BulletinBoard.Controllers
                 throw new Exception("Invalid topic information.");
             }
 
-            await _topicService.CreateTopic(model, User.Identity.Name);
+            await _topicService.CreateTopicAsync(model, User.Identity.Name);
 
             return RedirectToAction("Index", new { forumId = model.ForumId });
         }
@@ -46,7 +46,7 @@ namespace BulletinBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
-            var model = await _topicService.GetTopicWithAllReplies(id);
+            var model = await _topicService.GetTopicWithAllRepliesAsync(id);
 
             return View(model);
         }
@@ -54,7 +54,7 @@ namespace BulletinBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Reply(int toId)
         {
-            var model = await _topicService.GetTopicForReplying(toId);
+            var model = await _topicService.GetTopicForReplyingAsync(toId);
 
             return View(model);
         }
@@ -67,7 +67,7 @@ namespace BulletinBoard.Controllers
                 throw new Exception("Invalid topic information.");
             }
 
-            await _topicService.ReplyToTopic(model, User.Identity.Name);
+            await _topicService.ReplyToTopicAsync(model, User.Identity.Name);
 
             return RedirectToAction("Detail", new { id = model.RootTopicId });
         }
@@ -75,7 +75,7 @@ namespace BulletinBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await _topicService.GetTopicDetail<TopicForUpdateViewModel>(id);
+            var model = await _topicService.GetTopicDetailAsync<TopicForUpdateViewModel>(id);
 
             return View(model);
         }
@@ -88,7 +88,7 @@ namespace BulletinBoard.Controllers
                 throw new Exception("Invalid topic information.");
             }
 
-            await _topicService.EditTopic(model, User.Identity.Name);
+            await _topicService.EditTopicAsync(model, User.Identity.Name);
 
             return RedirectToAction("Detail", new { id = model.RootTopicId });
         }
@@ -96,7 +96,7 @@ namespace BulletinBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = await _topicService.GetTopicDetail<TopicViewModel>(id);
+            var model = await _topicService.GetTopicDetailAsync<TopicViewModel>(id);
 
             return View(model);
         }
@@ -109,7 +109,7 @@ namespace BulletinBoard.Controllers
                 throw new Exception("Invalid topic information.");
             }
 
-            await _topicService.DeleteTopic(model);
+            await _topicService.DeleteTopicAsync(model);
 
             if (model.id == model.RootTopicId)
             {

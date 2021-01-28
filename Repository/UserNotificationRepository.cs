@@ -14,11 +14,11 @@ namespace Repository
 
         }
 
-        public async Task<UserNotification> GetUserNotification(int notificationId, string userId, bool trackChanges) =>
+        public async Task<UserNotification> GetUserNotificationAsync(int notificationId, string userId, bool trackChanges) =>
             await FindByCondition(n => n.UserId.Equals(userId) && n.NotificationId == notificationId, trackChanges)
                     .FirstOrDefaultAsync();
 
-        public async Task<IEnumerable<UserNotification>> GetUserNotifications(string userId, bool trackChanges) =>
+        public async Task<IEnumerable<UserNotification>> GetUserNotificationsAsync(string userId, bool trackChanges) =>
             await FindByCondition(un => un.UserId.Equals(userId) && !un.IsRead, trackChanges)
                     .Include(un => un.Notification)
                     .ToListAsync();

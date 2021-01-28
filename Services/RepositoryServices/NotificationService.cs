@@ -42,15 +42,15 @@ namespace Services.RepositoryServices
         public async Task<IEnumerable<UserNotification>> GetAllAssignedNotificationAsync(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            var userNotification = await _repositoryManager.UserNotification.GetUserNotifications(user.Id, trackChanges: false);
+            var userNotification = await _repositoryManager.UserNotification.GetUserNotificationsAsync(user.Id, trackChanges: false);
             
             return userNotification;
         }
 
-        public async void ReadNotification(int notificationId, string userName)
+        public async Task ReadNotificationAsync(int notificationId, string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            var notification = await _repositoryManager.UserNotification.GetUserNotification(notificationId, user.Id, trackChanges: false);
+            var notification = await _repositoryManager.UserNotification.GetUserNotificationAsync(notificationId, user.Id, trackChanges: false);
 
             notification.IsRead = true;
 

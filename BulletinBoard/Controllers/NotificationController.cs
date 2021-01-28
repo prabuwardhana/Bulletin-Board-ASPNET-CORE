@@ -20,9 +20,9 @@ namespace BulletinBoard.Controllers
             return Ok(new { UserNotification = userNotification, Count = userNotification.Count() });
         }
 
-        public IActionResult ReadNotification(int notificationId)
+        public async Task<IActionResult> ReadNotification(int notificationId)
         {
-            _notificationService.ReadNotification(notificationId, User.Identity.Name);
+            await _notificationService.ReadNotificationAsync(notificationId, User.Identity.Name);
 
             return Ok();
         }

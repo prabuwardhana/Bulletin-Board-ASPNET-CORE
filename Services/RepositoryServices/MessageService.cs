@@ -27,7 +27,7 @@ namespace Services.RepositoryServices
             _mapper = mapper;
         }
 
-        public async Task<(IEnumerable<MessageViewModel>, string)> GetMessagesListAsync(string userName)
+        public async Task<(IEnumerable<MessageViewModel>, string)> GetAllCurrentUserMessagesAsync(string userName)
         {
             var messages = await _repositoryManager.Message.GetMessagesForUserAsync(userName, trackChanges: false);
 
@@ -104,7 +104,7 @@ namespace Services.RepositoryServices
             return model;
         }
 
-        public async Task SendMessageReply(MessageReplyViewModel model, string userName)
+        public async Task SendMessageReplyAsync(MessageReplyViewModel model, string userName)
         {
             var fromUser = await _userManager.FindByNameAsync(userName);
 
@@ -124,7 +124,7 @@ namespace Services.RepositoryServices
             await _notificationService.NotifyMsgReceiverAsync(notification, message.ToUserId);
         }
 
-        public async Task DeleteMessage(int msgId, string userName)
+        public async Task DeleteMessageAsync(int msgId, string userName)
         {
             var message = await _repositoryManager.Message.GetMessageForUserAsync(msgId, trackChanges: false);
 

@@ -7,11 +7,11 @@ namespace Contracts
 {
     public interface IForumService
     {
-        Task<(PagedList<ForumListViewModel>, IEnumerable<ForumListViewModel>)> GetForumsList(ForumParameters forumParameters);
-        Task CreateForum(ForumForCreationViewModel model, string userName);
-        Task<ForumViewModel> GetForumDetail(int id);
-        Task<ForumForUpdateViewModel> GetForumDetailForEditing(int id);
-        Task EditForum(ForumForUpdateViewModel model);
-        Task DeleteForum(ForumViewModel model);
+        Task<(PagedList<ForumListViewModel>, IEnumerable<ForumListViewModel>)> GetPagedAndTopForumsAsync(ForumParameters forumParameters);
+        Task CreateForumAsync(ForumForCreationViewModel model, string userName);
+        Task<ForumViewModel> GetForumDetailAsync(int id);
+        Task<ForumForUpdateViewModel> GetForumDetailForEditingAsync(int id);
+        Task EditForumAsync(ForumForUpdateViewModel model);
+        Task DeleteForumAsync(ForumViewModel model);
     }
 }

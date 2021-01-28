@@ -8,6 +8,6 @@ namespace Contracts
     {
          Task NotifyMsgReceiverAsync (Notification notification, string userId);
          Task<IEnumerable<UserNotification>> GetAllAssignedNotificationAsync(string userName);
-         void ReadNotification(int notificationId, string userName);
+         Task ReadNotificationAsync(int notificationId, string userName);
     }
 }

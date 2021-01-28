@@ -18,7 +18,7 @@ namespace BulletinBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var messageUser = await _messageService.GetMessagesListAsync(User.Identity.Name);
+            var messageUser = await _messageService.GetAllCurrentUserMessagesAsync(User.Identity.Name);
 
             return View(messageUser);
         }
@@ -68,7 +68,7 @@ namespace BulletinBoard.Controllers
                 throw new Exception("Invalid message information.");
             }
 
-            await _messageService.SendMessageReply(model, User.Identity.Name);
+            await _messageService.SendMessageReplyAsync(model, User.Identity.Name);
             
             return RedirectToAction("Index");
         }
@@ -76,7 +76,7 @@ namespace BulletinBoard.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            await _messageService.DeleteMessage(id, User.Identity.Name);
+            await _messageService.DeleteMessageAsync(id, User.Identity.Name);
 
             return RedirectToAction("Index");
         }

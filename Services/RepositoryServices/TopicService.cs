@@ -21,7 +21,7 @@ namespace Services.RepositoryServices
             _mapper = mapper;
         }
 
-        public async Task<(ForumViewModel, IEnumerable<TopicListViewModel>)> GetTopicsListFromForum(int forumId)
+        public async Task<(ForumViewModel, IEnumerable<TopicListViewModel>)> GetPagedAndTopTopicsFromForumAsync(int forumId)
         {
             var forum = await _repositoryManager.Forum.GetForumDetailByIdAsync(forumId, trackChanges: false);
             forum.Topic = await _repositoryManager.Topic.GetTopicsForForumWithReplyAsync(forumId, trackChanges: false);            
@@ -34,7 +34,7 @@ namespace Services.RepositoryServices
             return (model, topTopicsModel);
         }
 
-        public async Task CreateTopic(TopicForCreationViewModel model, string userName)
+        public async Task CreateTopicAsync(TopicForCreationViewModel model, string userName)
         {
             var forum = await _repositoryManager.Forum.GetForumByIdAsync(model.ForumId, trackChanges: false);
             var owner = await _userManager.FindByNameAsync(userName);
@@ -51,7 +51,7 @@ namespace Services.RepositoryServices
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task<T> GetTopicDetail<T>(int id)
+        public async Task<T> GetTopicDetailAsync<T>(int id)
         {
             var topic = await _repositoryManager.Topic.GetTopicByIdAsync(id, trackChanges: false);
             var model = _mapper.Map<T>(topic);
@@ -59,7 +59,7 @@ namespace Services.RepositoryServices
             return model;
         }
 
-        public async Task<TopicViewModel> GetTopicWithAllReplies(int id)
+        public async Task<TopicViewModel> GetTopicWithAllRepliesAsync(int id)
         {
             var rootTopic = await _repositoryManager.Topic.GetTopicDetailByIdAsync(id, false);
 
@@ -77,7 +77,7 @@ namespace Services.RepositoryServices
             return model;
         }
 
-        public async Task<TopicForReplyViewModel> GetTopicForReplying(int toId)
+        public async Task<TopicForReplyViewModel> GetTopicForReplyingAsync(int toId)
         {
             var toTopic = await _repositoryManager.Topic.GetTopicByIdAsync(toId, trackChanges: false);
 
@@ -90,7 +90,7 @@ namespace Services.RepositoryServices
             return model;
         }
 
-        public async Task ReplyToTopic(TopicForReplyViewModel model, string userName)
+        public async Task ReplyToTopicAsync(TopicForReplyViewModel model, string userName)
         {
             var owner = await _userManager.FindByNameAsync(userName);
             var topic = _mapper.Map<TopicForReplyViewModel, Topic>(model, opts => opts.Items["OwnerId"] = owner.Id);
@@ -99,7 +99,7 @@ namespace Services.RepositoryServices
             await _repositoryManager.SaveAsync();
         }        
 
-        public async Task EditTopic(TopicForUpdateViewModel model, string userName)
+        public async Task EditTopicAsync(TopicForUpdateViewModel model, string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
             var topic = await _repositoryManager.Topic.GetTopicByIdAsync(model.id, trackChanges: true);
@@ -109,7 +109,7 @@ namespace Services.RepositoryServices
             await _repositoryManager.SaveAsync();
         }
 
-        public async Task DeleteTopic(TopicViewModel model)
+        public async Task DeleteTopicAsync(TopicViewModel model)
         {
             var topic = await _repositoryManager.Topic.GetTopicByIdAsync(model.id, trackChanges: false);            
 
