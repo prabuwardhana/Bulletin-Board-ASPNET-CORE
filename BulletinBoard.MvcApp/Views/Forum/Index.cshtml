@@ -1,0 +1,98 @@
+@model ValueTuple<BulletinBoard.Entities.RequestFeatures.PagedList<ForumListViewModel>, IEnumerable<ForumListViewModel>>
+
+@{
+  ViewBag.Title = "Forums";
+  var forumPagedList = Model.Item1;
+  var mostActiveForums = Model.Item2;
+}
+
+<div class="row">
+  <main class="col-lg-8 col-12">
+    @foreach (var f in forumPagedList)
+    {
+      <div class="post card-shadow">
+        <div class="post-content">
+          <div class="post-image">
+            <img src="@f.ForumImageUri" alt="forum image">
+          </div>
+          <div class="post-text">
+            <header>
+              <h2>
+                @if (f.IsLocked)
+                {
+                  @f.Name <span>(Locked)</span>
+                }
+                else
+                {
+                  <a asp-controller="Topic" asp-action="Index" asp-route-forumid="@f.id">@f.Name</a>
+                }
+              </h2>
+            </header>
+
+            <section>
+              @Html.Raw(@f.Description)
+            </section>
+
+            <footer>
+              <span>created by</span>
+              <a asp-controller="User" asp-action="Detail" asp-route-username="@f.OwnerUserName">@f.OwnerUserName</a>
+              @if (User.IsInRole(Roles.Administrator) || User.IsInRole(Roles.Moderator))
+              {
+                <span> | </span>
+                <a asp-action="Detail" asp-route-id="@f.id">See detail</a>
+              }
+            </footer>
+          </div>
+        </div>
+
+        <div class="post-info">
+          <div class="count-bubble">
+            <div class="bubblebg">
+              <span>@f.TopicsCount</span>
+              <div class="mark"></div>
+            </div>
+          </div>
+          <div class="time">
+            <div class="time-container">
+              <i class="far fa-clock"></i>
+              <span>@f.CreatedDateTime.ToShortDateString()</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="pagination">
+      <nav>
+        <a page-metadata="@forumPagedList.MetaData" page-action="Index" is-previous="true">
+          <i class="fas fa-angle-double-left"></i>
+        </a>
+        <ul page-metadata="@forumPagedList.MetaData" page-action="Index" page-classes-enabled="true"
+          page-class-normal="hidden-xs" page-class-selected="current">
+        </ul>
+        <a page-metadata="@forumPagedList.MetaData" page-action="Index" is-next="true">
+          <i class="fas fa-angle-double-right"></i>
+        </a>
+      </nav>
+    </div>
+  </main>
+
+  <aside class="col-lg-4 col-12">
+    <div class="sidebarbox card-shadow">
+      <h2>Top Forums</h2>
+      <ul>
+        @foreach (var f in mostActiveForums)
+        {
+          <li>
+            <a asp-controller="Topic" asp-action="Index" asp-route-forumid="@f.id">
+              @f.Name
+            </a>
+            <div>
+              <span class="badge badge-bb float-right">@f.TopicsCount</span>
+            </div>
+          </li>
+        }
+      </ul>
+    </div>
+  </aside>
+</div>
