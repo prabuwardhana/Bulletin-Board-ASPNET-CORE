@@ -23,7 +23,7 @@ namespace BulletinBoard.MvcApp.Extensions
             services.AddDbContext<RepositoryContext>(options => 
             {
                 var connectionString = configuration.GetConnectionString("sqliteConnection");
-                options.UseSqlite(connectionString, b => b.MigrationsAssembly("BulletinBoard"));
+                options.UseSqlite(connectionString, b => b.MigrationsAssembly("BulletinBoard.MvcApp"));
             });
         
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>

@@ -16,7 +16,7 @@ namespace BulletinBoard.MvcApp.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.1");
 
-            modelBuilder.Entity("Entities.Models.Forum", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.Forum", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace BulletinBoard.MvcApp.Migrations
                     b.ToTable("Forum");
                 });
 
-            modelBuilder.Entity("Entities.Models.Message", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.Message", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +89,7 @@ namespace BulletinBoard.MvcApp.Migrations
                     b.ToTable("Message");
                 });
 
-            modelBuilder.Entity("Entities.Models.Notification", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +103,7 @@ namespace BulletinBoard.MvcApp.Migrations
                     b.ToTable("Notification");
                 });
 
-            modelBuilder.Entity("Entities.Models.Topic", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.Topic", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -164,7 +164,7 @@ namespace BulletinBoard.MvcApp.Migrations
                     b.ToTable("Topic");
                 });
 
-            modelBuilder.Entity("Entities.Models.User", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -256,7 +256,7 @@ namespace BulletinBoard.MvcApp.Migrations
                         {
                             Id = "59d0b519-75a3-40c9-a6a8-2b42ad9e5095",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3d2a21a6-1926-4495-b829-eaad0c27b74f",
+                            ConcurrencyStamp = "65f52f9f-d03e-4035-ae84-b8e151fb862d",
                             Email = "admin@email.com",
                             EmailConfirmed = false,
                             IsAdministrator = true,
@@ -266,16 +266,16 @@ namespace BulletinBoard.MvcApp.Migrations
                             Name = "Administrator",
                             NormalizedEmail = "ADMIN@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOZtLEyl88QvQtSzziN2iMLwp3agI9+NSmqbMMHdPG0zoMhfJHnrHPfbGqt1bcq2Vg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMVqsuzel7rzq/QoJrMQBNrxCybyR9JuS1V01hKGet4eTWuwBfMoTk9H//HLCuz9gA==",
                             PhoneNumberConfirmed = false,
                             RegisterDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            SecurityStamp = "704672e0-91ac-4269-b094-274db0616e58",
+                            SecurityStamp = "1198d3b9-ae49-481a-aaf9-0697dd304604",
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
                 });
 
-            modelBuilder.Entity("Entities.Models.UserNotification", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.UserNotification", b =>
                 {
                     b.Property<int>("NotificationId")
                         .HasColumnType("INTEGER");
@@ -322,7 +322,7 @@ namespace BulletinBoard.MvcApp.Migrations
                         new
                         {
                             Id = "f6d54222-3065-48b8-86e3-8c0c7ad6e7cc",
-                            ConcurrencyStamp = "6787921a-dde9-4d51-ad91-30ac224ebb90",
+                            ConcurrencyStamp = "b478ceb1-0249-4fef-affc-160c332dbe9b",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -437,68 +437,68 @@ namespace BulletinBoard.MvcApp.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Entities.Models.Forum", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.Forum", b =>
                 {
-                    b.HasOne("Entities.Models.User", "Owner")
+                    b.HasOne("BulletinBoard.Entities.Models.User", "Owner")
                         .WithMany("Forums")
                         .HasForeignKey("OwnerId")
                         .HasConstraintName("FK_Forum_Owner");
                 });
 
-            modelBuilder.Entity("Entities.Models.Message", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.Message", b =>
                 {
-                    b.HasOne("Entities.Models.User", "FromUser")
+                    b.HasOne("BulletinBoard.Entities.Models.User", "FromUser")
                         .WithMany("MessagesFromUser")
                         .HasForeignKey("FromUserId")
                         .HasConstraintName("FK_Message_FromUser");
 
-                    b.HasOne("Entities.Models.User", "ToUser")
+                    b.HasOne("BulletinBoard.Entities.Models.User", "ToUser")
                         .WithMany("MessagesToUser")
                         .HasForeignKey("ToUserId")
                         .HasConstraintName("FK_Message_ToUser");
                 });
 
-            modelBuilder.Entity("Entities.Models.Topic", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.Topic", b =>
                 {
-                    b.HasOne("Entities.Models.Forum", "Forum")
+                    b.HasOne("BulletinBoard.Entities.Models.Forum", "Forum")
                         .WithMany("Topic")
                         .HasForeignKey("ForumId")
                         .HasConstraintName("FK_Topic_Forum")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.User", "ModifiedByUser")
+                    b.HasOne("BulletinBoard.Entities.Models.User", "ModifiedByUser")
                         .WithMany("TopicsModifiedByUser")
                         .HasForeignKey("ModifiedByUserId")
                         .HasConstraintName("FK_Topic_ModifiedByUser");
 
-                    b.HasOne("Entities.Models.User", "Owner")
+                    b.HasOne("BulletinBoard.Entities.Models.User", "Owner")
                         .WithMany("TopicsOwner")
                         .HasForeignKey("OwnerId")
                         .HasConstraintName("FK_Topic_Owner");
 
-                    b.HasOne("Entities.Models.Topic", "ReplyToTopic")
+                    b.HasOne("BulletinBoard.Entities.Models.Topic", "ReplyToTopic")
                         .WithMany("InverseReplyToTopic")
                         .HasForeignKey("ReplyToTopicId")
                         .HasConstraintName("FK_Topic_ReplyToTopic")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Entities.Models.Topic", "RootTopic")
+                    b.HasOne("BulletinBoard.Entities.Models.Topic", "RootTopic")
                         .WithMany("InverseRootTopic")
                         .HasForeignKey("RootTopicId")
                         .HasConstraintName("FK_Topic_RootTopic")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Entities.Models.UserNotification", b =>
+            modelBuilder.Entity("BulletinBoard.Entities.Models.UserNotification", b =>
                 {
-                    b.HasOne("Entities.Models.Notification", "Notification")
+                    b.HasOne("BulletinBoard.Entities.Models.Notification", "Notification")
                         .WithMany("UserNotification")
                         .HasForeignKey("NotificationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.User", "User")
+                    b.HasOne("BulletinBoard.Entities.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -516,7 +516,7 @@ namespace BulletinBoard.MvcApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Entities.Models.User", null)
+                    b.HasOne("BulletinBoard.Entities.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -525,7 +525,7 @@ namespace BulletinBoard.MvcApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Entities.Models.User", null)
+                    b.HasOne("BulletinBoard.Entities.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -540,7 +540,7 @@ namespace BulletinBoard.MvcApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Models.User", null)
+                    b.HasOne("BulletinBoard.Entities.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -549,7 +549,7 @@ namespace BulletinBoard.MvcApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Entities.Models.User", null)
+                    b.HasOne("BulletinBoard.Entities.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
