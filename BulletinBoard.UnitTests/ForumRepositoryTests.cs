@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BulletinBoard.Contracts;
 using BulletinBoard.Entities.Models;
@@ -107,6 +108,42 @@ namespace BulletinBoard.UnitTests
             Assert.Contains("Test name 8", result[2].Name);
             Assert.Contains("Test name 9", result[3].Name);
             Assert.Contains("Test name 10", result[4].Name);
+        }
+
+        [Fact]
+        public void GetForumByIdAsync_ReturnEmptyForumsList_WhenNoForumHasTopic()
+        {
+            // Arrange
+            var mockForums = new List<Forum>();
+            for (int i = 1; i <= 5; i++)
+            {
+                mockForums.Add(new Forum
+                {
+                    id = i,
+                    OwnerId = $"owner-{i}",
+                    Name = $"Test name {i}",
+                    Description = $"Test description {i}",
+                    ForumImageUri = $"Test URI {i}",
+                    IsLocked = false,
+                    CreatedDateTime = DateTime.Now,
+                    Owner = new User(),
+                    Topic = new List<Topic>()
+                });
+            }
+
+            var mockForumRepository = new Mock<IForumRepository>();
+            mockForumRepository
+                    .Setup(repo => repo.GetTopForumsAsync(false))
+                    .Returns(Task.FromResult(mockForums.Where(f => f.Topic.Count > 0)));
+
+            // Act
+            var result = mockForumRepository.Object.GetTopForumsAsync(false)
+                            .GetAwaiter()
+                            .GetResult()
+                            .ToList();
+            
+            // Assert
+            Assert.Empty(result);
         }
 
         [Fact]
