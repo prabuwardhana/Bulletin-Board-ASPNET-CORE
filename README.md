@@ -11,8 +11,6 @@ Some of technologies used in this project are:
 * **SignalR Core** for real-time notification.
 * **ASP.NET Core Identity** for user management and authentication
 * **Entity Framework Core** with **SQLite**
-</br>
-</br>
 
 # Running The App On Your Local Machine
 ## Cloning the project
@@ -50,5 +48,5 @@ Add below code in the appsettings.json (not recommended) or set up a user secret
 }
 ```
 > You need to create azure account (12 months free trial) if you don't have one.
-</br>
+>
 > Make sure you use an email account without 2-step verivications.
