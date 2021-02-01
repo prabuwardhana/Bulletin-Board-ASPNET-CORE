@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BulletinBoard.Contracts;
 using BulletinBoard.Entities.Models;
-using BulletinBoard.Entities.RequestFeatures;
 using BulletinBoard.Entities.ViewModels;
 using BulletinBoard.Services;
 using BulletinBoard.Services.RepositoryServices;
