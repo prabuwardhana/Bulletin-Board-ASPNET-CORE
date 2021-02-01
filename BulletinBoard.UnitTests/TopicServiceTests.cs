@@ -34,22 +34,6 @@ namespace BulletinBoard.UnitTests
             _sut = new TopicService(_repoManagerMock.Object, null, mapper);
         }
 
-        public List<Topic> GetForums()
-        {
-            var mockTopics = new List<Topic>();
-            for (int i = 1; i <= 10; i++)
-            {
-                mockTopics.Add(new Topic
-                {
-                    id = i,
-                    Title = $"Test title {i}",
-                    Content = $"Test content {i}"
-                });
-            }
-
-            return mockTopics;
-        }
-
         [Fact]
         public async Task GetTopicDetailAsync_ShouldReturnTopicViewModel_WhenTopicIdExist()
         {
