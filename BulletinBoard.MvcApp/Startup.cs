@@ -62,12 +62,14 @@ namespace BulletinBoard.MvcApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                    name: "pagination", 
+                    pattern: "Forum/Page_{pageNumber}",
+                    defaults: new { Controller = "Forum", action = "Index" });
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action}/{id?}",
                     defaults: new { controller = "Home", action = "Index" });
-
-                endpoints.MapControllerRoute("pagination", "Forum/Page_{pageNumber}",
-                    new { Controller = "Forum", action = "Index" });
                 
                 endpoints.MapHub<SignalServer>("/signalServer");
             });
