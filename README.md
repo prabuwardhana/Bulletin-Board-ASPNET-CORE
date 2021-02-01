@@ -12,6 +12,18 @@ Some of technologies used in this project are:
 * **ASP.NET Core Identity** for user management and authentication
 * **Entity Framework Core** with **SQLite**
 
+# Demo
+## Login
+![authentication](https://i.imgur.com/u6Lk90e.gif)
+## Registration
+![registration](https://i.imgur.com/KpK3gGN.gif)
+## Upload Profile Image
+![upload profile image](https://i.imgur.com/0rPhK0S.gif)
+## Forgot Password
+![Forgot Password](https://i.imgur.com/FyBu0zZ.gif)
+## Real-time Notification
+![Notification](https://i.imgur.com/NNx857O.gif)
+
 # Running The App On Your Local Machine
 ## Cloning the project
 ```bash
