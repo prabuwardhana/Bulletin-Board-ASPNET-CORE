@@ -30,7 +30,7 @@ $ dotnet ef database update
 This command will generate a database file called **BulletinBoard.db** in the BulletinBoard.MvcApp assembly (inside BulletinBoard.MvcApp folder).
 
 ## Setting Up Configs for Azure Blob Storage And Mail Service
-Add below code in the appsettings.json (not recommended) or set up a user secret (recommended).
+Add below code in the appsettings.json (**not recommended**) or set up a user secret (**recommended**).
 ```json
 {
   "AzureBlobOption": {
