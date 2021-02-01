@@ -31,7 +31,7 @@ namespace BulletinBoard.Repository
 
         public void Delete(T entity) => _repositoryContext.Set<T>().Remove(entity);
 
-        public void CascadeDelete(ICollection<T> entity) => _repositoryContext.Set<T>().RemoveRange(entity);
+        public void CascadeDelete(IEnumerable<T> entity) => _repositoryContext.Set<T>().RemoveRange(entity);
 
         public void Update(T entity) => _repositoryContext.Set<T>().Update(entity);
     }

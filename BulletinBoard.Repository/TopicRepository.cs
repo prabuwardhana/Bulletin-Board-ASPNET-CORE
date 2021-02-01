@@ -14,7 +14,7 @@ namespace BulletinBoard.Repository
         {
         }
 
-        public async Task<ICollection<Topic>> GetTopicsForForumWithReplyAsync(int forumId, bool trackChanges) => 
+        public async Task<IEnumerable<Topic>> GetTopicsForForumWithReplyAsync(int forumId, bool trackChanges) => 
             await FindByCondition(t => t.ForumId.Equals(forumId) && t.ReplyToTopicId == null, trackChanges)
             .Include(t => t.Owner)
             .Include(t => t.InverseRootTopic)
@@ -30,20 +30,20 @@ namespace BulletinBoard.Repository
             .Include(t => t.ModifiedByUser)
             .SingleOrDefaultAsync();
 
-        public async Task<ICollection<Topic>> GetInverseReplyToTopicAsync(int topicId, bool trackChanges) => 
+        public async Task<IEnumerable<Topic>> GetInverseReplyToTopicAsync(int topicId, bool trackChanges) => 
             await FindByCondition(t => t.RootTopicId.Equals(topicId) && t.ReplyToTopicId != null, trackChanges)
             .Include(t => t.Owner)
             .Include(t => t.ModifiedByUser)
             .ToListAsync();
         
-        public async Task<ICollection<Topic>> GetDescendantTopicsAsync(int topicId, bool trackChanges) =>
+        public async Task<IEnumerable<Topic>> GetDescendantTopicsAsync(int topicId, bool trackChanges) =>
             await FindByCondition(t => t.RootTopicId == topicId, trackChanges)
             .ToListAsync();
         
-        public async Task<ICollection<Topic>> GetTopTopicsAsync(bool trackChanges) =>
-            await FindByCondition(t => t.InverseRootTopic.Count > 1, trackChanges)
+        public async Task<IEnumerable<Topic>> GetTopTopicsAsync(bool trackChanges) =>
+            await FindByCondition(t => t.InverseRootTopic.Count() > 1, trackChanges)
                 .Include(t => t.InverseRootTopic)
-                .OrderByDescending(t => t.InverseRootTopic.Count)
+                .OrderByDescending(t => t.InverseRootTopic.Count())
                 .Take(5)
                 .ToListAsync();
 
@@ -53,6 +53,6 @@ namespace BulletinBoard.Repository
 
         public void DeleteTopic(Topic topic) => Delete(topic);
 
-        public void CascadeDeleteTopic(ICollection<Topic> topic) => CascadeDelete(topic);
+        public void CascadeDeleteTopic(IEnumerable<Topic> topic) => CascadeDelete(topic);
     }
 }

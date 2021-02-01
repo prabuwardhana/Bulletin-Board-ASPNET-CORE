@@ -12,6 +12,6 @@ namespace BulletinBoard.Contracts
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
-        void CascadeDelete(ICollection<T> entity);
+        void CascadeDelete(IEnumerable<T> entity);
     }
 }

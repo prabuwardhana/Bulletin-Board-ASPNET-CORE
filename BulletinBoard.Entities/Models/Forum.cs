@@ -22,7 +22,7 @@ namespace BulletinBoard.Entities.Models
         public DateTime CreatedDateTime { get; set; }
 
         public User Owner { get; set; }                 // C
-        public ICollection<Topic> Topic { get; set; }   // D
+        public IEnumerable<Topic> Topic { get; set; }   // D
 
         /******************************************************************************
         #

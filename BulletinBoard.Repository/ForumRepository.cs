@@ -38,7 +38,7 @@ namespace BulletinBoard.Repository
             .SingleOrDefaultAsync();
         
         public async Task<IEnumerable<Forum>> GetTopForumsAsync(bool trackChanges) =>
-            await FindByCondition(f => f.Topic.Count > 0, trackChanges)
+            await FindByCondition(f => f.Topic.Count() > 0, trackChanges)
                 .Include(f => f.Topic)
                 .OrderByDescending(f => f.Topic.Count(t => t.ReplyToTopicId == null))
                 .Take(10)

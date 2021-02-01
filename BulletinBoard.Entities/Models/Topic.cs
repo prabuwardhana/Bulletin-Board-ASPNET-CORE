@@ -42,8 +42,8 @@ namespace BulletinBoard.Entities.Models
         public User Owner { get; set; }             // I
         public Topic ReplyToTopic { get; set; }     // J
         public Topic RootTopic { get; set; }        // K
-        public virtual ICollection<Topic> InverseReplyToTopic { get; set; } // L
-        public virtual ICollection<Topic> InverseRootTopic { get; set; }    // M
+        public virtual IEnumerable<Topic> InverseReplyToTopic { get; set; } // L
+        public virtual IEnumerable<Topic> InverseRootTopic { get; set; }    // M
 
         /******************************************************************************
         #

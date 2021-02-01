@@ -132,7 +132,7 @@ namespace BulletinBoard.UnitTests
                 );
             
             _repoManagerMock.Setup(repo => repo.Forum.GetTopForumsAsync(false))
-                .ReturnsAsync(GetForums().Where(f => f.Topic.Count > 0));
+                .ReturnsAsync(GetForums().Where(f => f.Topic.Count() > 0));
 
             // Act
             var result = await _sut.GetPagedAndTopForumsAsync(_forumParameters);
