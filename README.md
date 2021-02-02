@@ -12,6 +12,9 @@ Some of technologies used in this project are:
 * **ASP.NET Core Identity** for user management and authentication
 * **Entity Framework Core** with **SQLite**
 
+# Application Architecture
+![architecture](https://i.imgur.com/KGdgTny.png)
+
 # Demo
 ## Login
 ![authentication](https://i.imgur.com/u6Lk90e.gif)
